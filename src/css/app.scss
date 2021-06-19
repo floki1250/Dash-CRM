@@ -1,0 +1,71 @@
+// app global css in SCSS form
+@import url("https://fonts.googleapis.com/css2?family=Mulish&display=swap");
+$chartWidth: 400px;
+.item {
+  font-family: "Mulish", sans-serif;
+  text-align: center;
+  color: #e4e4e4d2;
+  font-size: 16px;
+  border-radius: 20px;
+}
+.item:hover {
+  border-radius: 20px;
+  font-weight: bold;
+  color: $primary;
+}
+.title-logo {
+  font-family: "Mulish", sans-serif;
+  text-align: center;
+  color: #a4a6b3;
+  font-weight: 700;
+  font-size: 19px;
+  display: grid;
+  grid-template-columns: repeat(2, 150px);
+  grid-template-rows: 1fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  margin-top: 20px;
+  p {
+    margin-left: -150px;
+  }
+}
+
+.widget {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 20px 10px 10px 10px;
+  background-color: #f4f4f8;
+  border-radius: 15px;
+  width: fit-content;
+  min-width: 100px;
+  padding: 5px 10px 5px 10px;
+  height: fit-content;
+  min-height: 100px;
+  box-shadow: 4px 2px 128px -23px rgba(0, 0, 0, 0.14);
+  -webkit-box-shadow: 4px 2px 128px -23px rgba(0, 0, 0, 0.14);
+  -moz-box-shadow: 4px 2px 128px -23px rgba(0, 0, 0, 0.14);
+  overflow-wrap: break-word;
+}
+.highcharts-background {
+  fill: transparent;
+}
+.q-table__card {
+  color: #000;
+  background-color: #fff0;
+  border-radius: 4px;
+  box-shadow: 0 0px 0px;
+}
+.info {
+  font-family: "Mulish", sans-serif;
+  font-weight: bold;
+}
+.overview {
+  padding: 15px;
+  width:fit-content;
+  
+}
+.text{
+  font-family: "Mulish", sans-serif;
+  font-weight: bold;
+  color:grey
+}
