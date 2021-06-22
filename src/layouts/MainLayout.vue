@@ -30,7 +30,7 @@
             Profile
           </q-item-section>
         </q-item>
-        <q-item to="Settings" clickable class="item">
+        <q-item clickable class="item" @click="settings = true">
           <q-item-section avatar>
             <q-icon name="las la-cog" />
           </q-item-section>
@@ -74,9 +74,9 @@
             />
           </q-avatar>
           <q-separator />
-           <p class="info">Hi 👋, I'm Floki Web Developer</p>
-           <p class="info">For Any Support You can Find me Here </p>
-          <div class="row" >
+          <p class="info">Hi 👋, I'm Floki Web Developer</p>
+          <p class="info">For Any Support You can Find me Here</p>
+          <div class="row">
             <q-btn
               @click="opentab('https://twitter.com/Adem1250_Dr')"
               flat
@@ -93,11 +93,34 @@
               icon="lab la-github"
               size="25px"
             />
-            <q-btn icon="las la-envelope" color="black" size="25px" flat round @click="show=!show"></q-btn>
-            <p v-show="show" style="margin:25px" class="info">d.adem1250@gmail.com</p>
-           
+            <q-btn
+              icon="las la-envelope"
+              color="black"
+              size="25px"
+              flat
+              round
+              @click="show = !show"
+            ></q-btn>
+            <p v-show="show" style="margin:25px" class="info">
+              d.adem1250@gmail.com
+            </p>
           </div>
-           <q-btn flat rounded @click="opentab('https://www.discovertunisia.com/en/')" style="margin-left:10px">Made with ❤️ in Tunisia</q-btn>
+          <q-btn
+            flat
+            rounded
+            @click="opentab('https://www.discovertunisia.com/en/')"
+            style="margin-left:10px"
+            >Made with ❤️ in Tunisia</q-btn
+          >
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+    <q-dialog v-model="settings">
+      <q-card class="my-card">
+       
+        <q-card-section>
+          
+         <q-toggle  color="grey" keep-color unchecked-icon="las la-sun" checked-icon="las la-moon" size="50px"/>
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -105,7 +128,7 @@
 </template>
 
 <script>
-const mail = "d.adem1250@gmail.com" ;
+
 export default {
   methods: {
     opentab: function(url) {
@@ -114,6 +137,7 @@ export default {
   },
   data() {
     return {
+      settings: false,
       show: false,
       left: true,
       toolbar: false

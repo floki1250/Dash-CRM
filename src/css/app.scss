@@ -1,6 +1,6 @@
 // app global css in SCSS form
 @import url("https://fonts.googleapis.com/css2?family=Mulish&display=swap");
-$chartWidth: 400px;
+$chartWidth: 20%;
 .item {
   font-family: "Mulish", sans-serif;
   text-align: center;
@@ -68,4 +68,8 @@ $chartWidth: 400px;
   font-family: "Mulish", sans-serif;
   font-weight: bold;
   color:grey
+}
+.vue-highcharts{
+  width:100%;
+  
 }

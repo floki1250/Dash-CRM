@@ -1,8 +1,7 @@
 <template>
-  <q-page class="flex" style="background-color: rgb(230, 230, 230);">
+  <q-page class="flex" style="background-color: rgb(230, 230, 230);display: table;">
     <div class="row justify-between" style="padding-top: 5px;">
       <div class="overview text">Overview</div>
-
       <q-dialog v-model="searchbar">
         <div style="background-color: rgb(230, 230, 230);">
           <q-input
@@ -54,7 +53,7 @@
         </div>
         <q-separator vertical />
         <div class="row" style="margin:5px">
-          <p style="padding: 10px 5px 0px 0px" class="text">Roboto</p>
+          <p style="padding: 10px 5px 0px 0px" class="text">{{username}}</p>
           <q-avatar><img src="~/assets/avatar.png" alt=""/></q-avatar>
         </div>
       </div>
@@ -77,11 +76,12 @@
         <iframe
           src="https://free.timeanddate.com/clock/i7untxj0/n253/fn16/fs30/tct/pct/pa9/tt0/tw0/tm1/td2/th1/tb4"
           frameborder="0"
-          width="300"
+          width="100%"
           height="88"
           allowtransparency="true"
         ></iframe>
       </div>
+     
       <div
         class="widget"
         onclick="()';"
@@ -92,6 +92,7 @@
           ref="areaCharts"
         ></vue-highcharts>
       </div>
+      
       <div
         class="widget"
         onclick="()';"
@@ -144,6 +145,7 @@ export default {
   },
   data() {
     return {
+      username: "Roboto Dakasuki Mora",
       searchbar: false,
       text: "",
       thumbStyle: {
