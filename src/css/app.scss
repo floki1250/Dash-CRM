@@ -1,9 +1,15 @@
 // app global css in SCSS form
 @import url("https://fonts.googleapis.com/css2?family=Mulish&display=swap");
 $chartWidth: 20%;
+.text-brand {
+  color: #43425d;
+}
+.bg-brand {
+  background: #43425d;
+}
 .item {
   font-family: "Mulish", sans-serif;
-  text-align: center;
+  text-align: left;
   color: #e4e4e4d2;
   font-size: 16px;
   border-radius: 20px;
@@ -14,19 +20,46 @@ $chartWidth: 20%;
   color: $primary;
 }
 .title-logo {
+  border-radius: 20px;
   font-family: "Mulish", sans-serif;
   text-align: center;
-  color: #a4a6b3;
-  font-weight: 700;
+  color: #e4e4e4d2;
+  font-weight: 400;
   font-size: 19px;
-  display: grid;
-  grid-template-columns: repeat(2, 150px);
-  grid-template-rows: 1fr;
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
-  margin-top: 20px;
-  p {
-    margin-left: -150px;
+  margin-bottom:50px;
+}
+.title-logo:hover{
+  border-radius: 20px;
+  color: #8483BE ;
+  font-weight: bold;
+}
+.page {
+  display: flex;
+  // background-image: url("https://images.unsplash.com/photo-1477322524744-0eece9e79640?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1422&q=80");
+  // background-position: center;
+  // background-repeat: no-repeat;
+  // background-size: cover;
+  background: linear-gradient(
+    -135deg,
+    rgba(230, 230, 230, 1) 0%,
+    rgb(217, 216, 243) 56%,
+    rgba(230, 230, 230, 1) 100%,
+    rgb(182, 180, 226) 56%,
+    rgba(230, 230, 230, 1) 100%,
+  );
+  background-size: 400% 400%;
+  animation: gradient 10s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }
 
@@ -34,16 +67,18 @@ $chartWidth: 20%;
   display: flex;
   flex-wrap: wrap;
   margin: 20px 10px 10px 10px;
-  background-color: #f4f4f8;
+  // background-color: #f4f4f8;
+
   border-radius: 15px;
   width: fit-content;
   min-width: 100px;
   padding: 5px 10px 5px 10px;
   height: fit-content;
   min-height: 100px;
-  box-shadow: 4px 2px 128px -23px rgba(0, 0, 0, 0.14);
-  -webkit-box-shadow: 4px 2px 128px -23px rgba(0, 0, 0, 0.14);
-  -moz-box-shadow: 4px 2px 128px -23px rgba(0, 0, 0, 0.14);
+  // box-shadow: 4px 2px 128px -23px rgba(0, 0, 0, 0.14);
+  // box-shadow: 0 0 3px rgba(#000, .1);
+  // -webkit-box-shadow: 4px 2px 128px -23px rgba(0, 0, 0, 0.14);
+  // -moz-box-shadow: 4px 2px 128px -23px rgba(0, 0, 0, 0.14);
   overflow-wrap: break-word;
 }
 .highcharts-background {
@@ -61,15 +96,31 @@ $chartWidth: 20%;
 }
 .overview {
   padding: 15px;
-  width:fit-content;
-  
+  width: fit-content;
 }
-.text{
+.text {
   font-family: "Mulish", sans-serif;
   font-weight: bold;
-  color:grey
+  color: grey;
 }
-.vue-highcharts{
-  width:100%;
-  
+.vue-highcharts {
+  margin-right: 50px;
+  width: 100%;
+}
+.fluent {
+  background-color: rgba(#fff, 0.5);
+  box-shadow: 0 0 3px rgba(#000, 0.3);
+  backdrop-filter: blur(10px);
+}
+.q-menu {
+  background-color: rgba(#fff, 0.4);
+  box-shadow: 0 0 3px rgba(#000, 0.3);
+  backdrop-filter: blur(15px);
+  border-radius: 15px;
+}
+.q-card {
+  background-color: rgba(#fff, 0.6);
+  box-shadow: 0 0 3px rgba(#000, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 2rem;
 }

@@ -5,7 +5,7 @@ import { colors } from 'quasar'
 
 Vue.use(VueRouter)
 
-colors.setBrand('listheadertoolbar', '#363740')
+colors.setBrand('listheadertoolbar', '#65648f')
 /*
  * If not building with SSR mode, you can
  * directly export the Router instantiation;

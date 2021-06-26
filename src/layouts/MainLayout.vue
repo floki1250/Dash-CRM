@@ -1,20 +1,26 @@
 <template>
   <q-layout view="hHh lpR fFf">
     <q-drawer
+      v-model="drawer"
       show-if-above
-      v-model="left"
-      side="left"
-      behavior="desktop"
-      elevated
+      :mini="miniState"
+      persistent
       content-class="bg-listheadertoolbar"
+      :breakpoint="500"
     >
       <!-- drawer content -->
-      <div class="title-logo">
-        <div><img src="~assets/logo.svg" alt="" /></div>
-        <p>Dash CRM</p>
-      </div>
+
       <q-list padding>
-        <q-item to="home" clickable class="item">
+        <q-item clickable v-ripple @click="State" class="title-logo">
+          <q-item-section avatar>
+            <img src="~assets/logo.svg" alt="" />
+          </q-item-section>
+          <q-item-section>
+            Dash CRM
+          </q-item-section>
+        </q-item>
+
+        <q-item to="home" clickable class="item" v-ripple>
           <q-item-section avatar>
             <q-icon name="las la-home" />
           </q-item-section>
@@ -22,7 +28,7 @@
             Home
           </q-item-section>
         </q-item>
-        <q-item to="profile" clickable class="item">
+        <q-item to="profile" clickable class="item" v-ripple>
           <q-item-section avatar>
             <q-icon name="las la-user" />
           </q-item-section>
@@ -30,15 +36,16 @@
             Profile
           </q-item-section>
         </q-item>
-        <q-item clickable class="item" @click="settings = true">
+        <q-item clickable class="item" v-ripple @click="setting = true">
           <q-item-section avatar>
             <q-icon name="las la-cog" />
           </q-item-section>
           <q-item-section>
             Settings
           </q-item-section>
+          <!-- <Settings v-model="setting" />  -->
         </q-item>
-        <q-item @click="toolbar = true" clickable class="item">
+        <q-item @click="toolbar = true" clickable class="item" v-ripple>
           <q-item-section avatar>
             <q-icon name="las la-info-circle" />
           </q-item-section>
@@ -49,9 +56,6 @@
       </q-list>
     </q-drawer>
 
-    <q-page-container>
-      <router-view />
-    </q-page-container>
     <q-dialog v-model="toolbar">
       <q-card>
         <q-toolbar>
@@ -115,33 +119,32 @@
         </q-card-section>
       </q-card>
     </q-dialog>
-    <q-dialog v-model="settings">
-      <q-card class="my-card">
-       
-        <q-card-section>
-          
-         <q-toggle  color="grey" keep-color unchecked-icon="las la-sun" checked-icon="las la-moon" size="50px"/>
-        </q-card-section>
-      </q-card>
-    </q-dialog>
+    <q-page-container>
+      <router-view />
+    </q-page-container>
   </q-layout>
 </template>
 
 <script>
-
 export default {
   methods: {
     opentab: function(url) {
       window.open(url);
+    },
+    State: function() {
+       this.miniState =  !this.miniState;
+      setTimeout(function(){this.miniState =  !this.miniState;},2000); 
     }
   },
   data() {
     return {
-      settings: false,
+      drawer: false,
+      miniState: true,
+      setting: false,
       show: false,
-      left: true,
       toolbar: false
     };
-  }
+  },
+  components: {}
 };
 </script>

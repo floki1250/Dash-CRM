@@ -1,17 +1,20 @@
 <template>
-  <q-page class="flex" style="background-color: rgb(230, 230, 230);display: table;">
-    <div class="row justify-between" style="padding-top: 5px;">
+  <q-page class="flex page">
+    <div
+      class="row justify-between fluent"
+      style="padding-top: 5px;width:100%;height:fit-content;"
+    >
       <div class="overview text">Overview</div>
       <q-dialog v-model="searchbar">
-        <div style="background-color: rgb(230, 230, 230);">
+        <div class="fluent">
           <q-input
             bottom-slots
-            v-model="text"
+            v-model="inputTextSearch"
             style="width:500px"
             :dense="true"
             clearable
             standout
-            bg-color="grey-6"
+            bg-color="indigo-5"
             autofocus
           >
             <template v-slot:prepend>
@@ -21,13 +24,21 @@
           <div>
             <q-scroll-area style="height: 200px;">
               <div v-for="n in 50" :key="n">
-                <q-item clickable> Result N°{{ n }} </q-item>
+                <q-item clickable
+                  ><q-icon
+                    name="las la-search"
+                    size="20px"
+                    color="grey-8"
+                    style="padding-right: 10px"
+                  />
+                  <p style="color:grey">Result N°{{ n }}</p>
+                </q-item>
               </div>
             </q-scroll-area>
           </div>
         </div>
       </q-dialog>
-      <div class="row" style="position:absolute;right:2%;">
+      <div class="row" style="position:absolute;right:2%;margin-left:200px;">
         <div>
           <q-btn
             color="grey"
@@ -43,36 +54,53 @@
               >+5</q-badge
             ></q-btn
           >
-          <q-popup-edit :cover="false">
-            <div>
-              <q-scroll-area style="height: 200px; width:150px">
-                <q-item clickable v-for="i in 10" :key="i">Message {{ i }}</q-item>
+          <q-popup-edit :cover="false" style="background:transparent">
+            <div style="height: 200px; width:150px">
+              <q-scroll-area style="height: 200px; width:100% ; margin:0px">
+                <q-item
+                  clickable
+                  v-for="i in 10"
+                  :key="i"
+                  style="border-radius:10px;"
+                  >Message {{ i }}</q-item
+                >
               </q-scroll-area>
             </div>
           </q-popup-edit>
         </div>
         <q-separator vertical />
-        <div class="row" style="margin:5px">
-          <p style="padding: 10px 5px 0px 0px" class="text">{{username}}</p>
-          <q-avatar><img src="~/assets/avatar.png" alt=""/></q-avatar>
+        <div class="row" style="margin:2px">
+          <p style="padding: 10px 2px 0px 0px" class="text">{{ username }}</p>
+
+          <q-avatar size="40px" @click="refresh" >
+            <img src="~/assets/avatar.png" alt="" />
+          </q-avatar>
         </div>
       </div>
     </div>
 
     <div
       class="row"
-      style="background-color: rgb(230, 230, 230);
-               width: 100%;
+      style="width: 100%;
                height: 100%;
-               margin-top:0%;"
+               margin-top:0%;
+               display: flex;
+               "
+
     >
-      <div class="widget" onclick="()';" style="cursor: pointer;  width:30%">
-        Hello World!
-      </div>
-      <div class="widget" onclick="()';" style="cursor: pointer; width:30%">
+      <div
+        class="widget fluent"
+        onclick="()';"
+        style="cursor: pointer;  width:30% ;"
+      ></div>
+      <div
+        class="widget fluent"
+        onclick="refresh()"
+        style="cursor: pointer; width:30%"
+      >
         Hello world!
       </div>
-      <div class="widget" onclick="()';" style="cursor: pointer; ">
+      <div class="widget fluent" onclick="()';" style="cursor: pointer; ">
         <iframe
           src="https://free.timeanddate.com/clock/i7untxj0/n253/fn16/fs30/tct/pct/pa9/tt0/tw0/tm1/td2/th1/tb4"
           frameborder="0"
@@ -81,22 +109,22 @@
           allowtransparency="true"
         ></iframe>
       </div>
-     
+
       <div
-        class="widget"
-        onclick="()';"
-        style="cursor: pointer; height:400px ; width:60%; "
+        class="widget fluent"
+        @click="refresh"
+        style="cursor: pointer; height:400px ;min-width:400px;flex:2; "
       >
         <vue-highcharts
           :options="areaOptions"
           ref="areaCharts"
         ></vue-highcharts>
       </div>
-      
+
       <div
-        class="widget"
+        class="widget fluent"
         onclick="()';"
-        style="cursor: pointer; height:400px ; width:35% ;"
+        style="cursor: pointer; height:400px ; flex:1 ;"
       >
         <q-scroll-area
           style="width:100%;text-align:center;padding:20px 0px 0px 0px;"
@@ -116,10 +144,9 @@
           </div>
         </q-scroll-area>
       </div>
-      <div class="widget" style="padding:10px;width:100%;">
+      <div class="widget fluent" style="padding:10px;width:100%;">
         <q-table
           title="Treats"
-          :data="data"
           :columns="columns"
           row-key="name"
           selection="single"
@@ -129,6 +156,7 @@
           table-class="text-grey-8"
           table-header-class="text-black"
           style="width:100%"
+          :data="DataTable.data"
         />
       </div>
     </div>
@@ -138,6 +166,8 @@
 <script>
 import VueHighcharts from "vue2-highcharts";
 import * as data from "src/assets/Data.js";
+import json from "src/assets/DataTable.json"
+
 export default {
   name: "Home",
   components: {
@@ -145,24 +175,10 @@ export default {
   },
   data() {
     return {
+      inputTextSearch:"",
+      DataTable:json,
       username: "Roboto Dakasuki Mora",
       searchbar: false,
-      text: "",
-      thumbStyle: {
-        right: "4px",
-        borderRadius: "5px",
-        backgroundColor: "#027be3",
-        width: "5px",
-        opacity: 0.75
-      },
-
-      barStyle: {
-        right: "2px",
-        borderRadius: "9px",
-        backgroundColor: "#027be3",
-        width: "9px",
-        opacity: 0.2
-      },
       areaOptions: data.AreaData,
       selected: [],
       columns: [
@@ -201,118 +217,31 @@ export default {
           sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
         }
       ],
-      data: [
-        {
-          name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          sodium: 87,
-          calcium: "14%",
-          iron: "1%"
-        },
-        {
-          name: "Ice cream sandwich",
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          sodium: 129,
-          calcium: "8%",
-          iron: "1%"
-        },
-        {
-          name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          sodium: 337,
-          calcium: "6%",
-          iron: "7%"
-        },
-        {
-          name: "Cupcake",
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-          sodium: 413,
-          calcium: "3%",
-          iron: "8%"
-        },
-        {
-          name: "Gingerbread",
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-          sodium: 327,
-          calcium: "7%",
-          iron: "16%"
-        },
-        {
-          name: "Jelly bean",
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          sodium: 50,
-          calcium: "0%",
-          iron: "0%"
-        },
-        {
-          name: "Lollipop",
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          sodium: 38,
-          calcium: "0%",
-          iron: "2%"
-        },
-        {
-          name: "Honeycomb",
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-          sodium: 562,
-          calcium: "0%",
-          iron: "45%"
-        },
-        {
-          name: "Donut",
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-          sodium: 326,
-          calcium: "2%",
-          iron: "22%"
-        },
-        {
-          name: "KitKat",
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          sodium: 54,
-          calcium: "12%",
-          iron: "6%"
-        }
-      ]
     };
   },
+
   mounted() {},
   methods: {
+    refresh:function(){
+     var x =document.getElementByClassName('highcharts-container ').innerHTML;
+     document.getElementByClassName('highcharts-container ').innerHTML=x;
+    },
     scrolled(position) {
       // when this method is invoked then it means user
       // has scrolled the page to `position`
       //
       // `position` is an Integer designating the current
       // scroll position in pixels.
+    },
+    showNotif(position) {
+      setTimeout(() => {
+        this.$q.notify({
+          message: "Hello World!",
+          color: "blue",
+          position,
+          progress: true,
+        });
+      }, 50);
     }
   }
 };
