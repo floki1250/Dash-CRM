@@ -1,9 +1,6 @@
 <template>
   <q-page class="flex page">
-    <div
-      class="row justify-between fluent"
-      style="padding-top: 5px;width:100%;height:fit-content;"
-    >
+    <div class="row justify-between headerBar">
       <div class="overview text">Overview</div>
       <q-dialog v-model="searchbar">
         <div class="fluent">
@@ -68,11 +65,11 @@
             </div>
           </q-popup-edit>
         </div>
-        <q-separator vertical />
+        <q-separator vertical style="margin:10px" />
         <div class="row" style="margin:2px">
-          <p style="padding: 10px 2px 0px 0px" class="text">{{ username }}</p>
+          <p style="padding: 10px 10px 0px 5px" class="text">{{ username }}</p>
 
-          <q-avatar size="40px" @click="refresh" >
+          <q-avatar size="40px" @click="refresh">
             <img src="~/assets/avatar.png" alt="" />
           </q-avatar>
         </div>
@@ -83,37 +80,46 @@
       class="row"
       style="width: 100%;
                height: 100%;
-               margin-top:0%;
                display: flex;
                "
-
     >
-      <div
-        class="widget fluent"
-        onclick="()';"
-        style="cursor: pointer;  width:30% ;"
-      ></div>
-      <div
-        class="widget fluent"
-        onclick="refresh()"
-        style="cursor: pointer; width:30%"
-      >
-        Hello world!
-      </div>
-      <div class="widget fluent" onclick="()';" style="cursor: pointer; ">
-        <iframe
-          src="https://free.timeanddate.com/clock/i7untxj0/n253/fn16/fs30/tct/pct/pa9/tt0/tw0/tm1/td2/th1/tb4"
-          frameborder="0"
-          width="100%"
-          height="88"
-          allowtransparency="true"
-        ></iframe>
+      <div style="flex:0.7;">
+        <div class="widget fluent" onclick="()';" style="cursor: pointer; ">
+          <iframe
+            src="https://free.timeanddate.com/clock/i7untxj0/n253/fn16/fs30/tct/pct/pa9/tt0/tw0/tm1/td2/th1/tb4"
+            frameborder="0"
+            width="100%"
+            height="88"
+            allowtransparency="true"
+          ></iframe>
+        </div>
+        <div
+          class="widget fluent"
+          onclick="()';"
+          style="cursor: pointer;  width:90% ;height:65%"
+        >
+          <q-btn
+            color="white"
+            icon="las la-music"
+            @click="yt = !yt"
+            size="50px"
+            style="width:100px;height:100px;position:relative;top:30%;left:30%;z-index:1"
+            flat
+            rounded
+            dense
+          />
+          <q-video
+            v-show="yt"
+            class="absolute-full"
+            src="https://www.youtube.com/embed/ylfDBdEXrBQ"
+          />
+        </div>
       </div>
 
       <div
         class="widget fluent"
         @click="refresh"
-        style="cursor: pointer; height:400px ;min-width:400px;flex:2; "
+        style="cursor: pointer; height:400px ;min-width:400px;flex:2;"
       >
         <vue-highcharts
           :options="areaOptions"
@@ -124,7 +130,7 @@
       <div
         class="widget fluent"
         onclick="()';"
-        style="cursor: pointer; height:400px ; flex:1 ;"
+        style="cursor: pointer; height:400px ; flex:0.5 ;"
       >
         <q-scroll-area
           style="width:100%;text-align:center;padding:20px 0px 0px 0px;"
@@ -159,6 +165,7 @@
           :data="DataTable.data"
         />
       </div>
+      <Settings />
     </div>
   </q-page>
 </template>
@@ -166,7 +173,8 @@
 <script>
 import VueHighcharts from "vue2-highcharts";
 import * as data from "src/assets/Data.js";
-import json from "src/assets/DataTable.json"
+import json from "src/assets/DataTable.json";
+import Settings from "components/Settings.vue";
 
 export default {
   name: "Home",
@@ -175,8 +183,9 @@ export default {
   },
   data() {
     return {
-      inputTextSearch:"",
-      DataTable:json,
+      yt: false,
+      inputTextSearch: "",
+      DataTable: json,
       username: "Roboto Dakasuki Mora",
       searchbar: false,
       areaOptions: data.AreaData,
@@ -216,15 +225,15 @@ export default {
           sortable: true,
           sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
         }
-      ],
+      ]
     };
   },
 
   mounted() {},
   methods: {
-    refresh:function(){
-     var x =document.getElementByClassName('highcharts-container ').innerHTML;
-     document.getElementByClassName('highcharts-container ').innerHTML=x;
+    refresh: function() {
+      var x = document.getElementByClassName("highcharts-container ").innerHTML;
+      document.getElementByClassName("highcharts-container ").innerHTML = x;
     },
     scrolled(position) {
       // when this method is invoked then it means user
@@ -239,10 +248,13 @@ export default {
           message: "Hello World!",
           color: "blue",
           position,
-          progress: true,
+          progress: true
         });
       }, 50);
     }
+  },
+  components: {
+    VueHighcharts
   }
 };
 </script>

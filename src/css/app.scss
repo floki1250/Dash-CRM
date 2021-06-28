@@ -7,6 +7,23 @@ $chartWidth: 20%;
 .bg-brand {
   background: #43425d;
 }
+.headerBar {
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 1px;
+  right: 25%;
+  left: 5%;
+  background-color: rgba(#fff, 0.5);
+  box-shadow: 0 0 10px rgba(#000, 0.3);
+  backdrop-filter: blur(10px);
+  padding-top: 5px;
+  width: 100%;
+  height: fit-content;
+  margin: 20px 10px 10px 10px;
+  border-radius: 20px;
+  z-index: 1;
+  scroll-behavior: smooth;
+}
 .item {
   font-family: "Mulish", sans-serif;
   text-align: left;
@@ -26,29 +43,28 @@ $chartWidth: 20%;
   color: #e4e4e4d2;
   font-weight: 400;
   font-size: 19px;
-  margin-bottom:50px;
+  margin-bottom: 50px;
 }
-.title-logo:hover{
+.title-logo:hover {
   border-radius: 20px;
-  color: #8483BE ;
+  color: $primary;
   font-weight: bold;
 }
 .page {
   display: flex;
-  // background-image: url("https://images.unsplash.com/photo-1477322524744-0eece9e79640?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1422&q=80");
-  // background-position: center;
-  // background-repeat: no-repeat;
-  // background-size: cover;
+  background-image: url("https://images.unsplash.com/photo-1531436107035-40b2e85b7a1b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  /*  background: rgb(62, 89, 145);
   background: linear-gradient(
     -135deg,
-    rgba(230, 230, 230, 1) 0%,
-    rgb(217, 216, 243) 56%,
-    rgba(230, 230, 230, 1) 100%,
-    rgb(182, 180, 226) 56%,
-    rgba(230, 230, 230, 1) 100%,
+    rgba(62, 89, 145, 1) 0%,
+    rgba(182, 206, 255, 1) 56%,
+    rgba(219, 231, 255, 1) 100%
   );
   background-size: 400% 400%;
-  animation: gradient 10s ease infinite;
+  animation: gradient 10s ease infinite; */
 }
 
 @keyframes gradient {
@@ -64,6 +80,7 @@ $chartWidth: 20%;
 }
 
 .widget {
+  cursor: url("/src/assets/curs.png"), url("/src/assets/curs.svg"), url("/src/assets/curs.cur"), default;
   display: flex;
   flex-wrap: wrap;
   margin: 20px 10px 10px 10px;
@@ -95,7 +112,7 @@ $chartWidth: 20%;
   font-weight: bold;
 }
 .overview {
-  padding: 15px;
+  padding: 10px 15px 15px 15px;
   width: fit-content;
 }
 .text {
@@ -104,8 +121,8 @@ $chartWidth: 20%;
   color: grey;
 }
 .vue-highcharts {
-  margin-right: 50px;
-  width: 100%;
+  width: 82%;
+  -webkit-margin-collapse: collapse;
 }
 .fluent {
   background-color: rgba(#fff, 0.5);

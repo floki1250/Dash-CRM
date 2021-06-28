@@ -13,7 +13,7 @@
       <q-list padding>
         <q-item clickable v-ripple @click="State" class="title-logo">
           <q-item-section avatar>
-            <img src="~assets/logo.svg" alt="" />
+            <img src="~/assets/logo.svg" alt="" />
           </q-item-section>
           <q-item-section>
             Dash CRM
@@ -55,7 +55,7 @@
         </q-item>
       </q-list>
     </q-drawer>
-
+    <Settings v-model="setting" />
     <q-dialog v-model="toolbar">
       <q-card>
         <q-toolbar>
@@ -126,14 +126,17 @@
 </template>
 
 <script>
+import Settings from "components/Settings.vue";
 export default {
   methods: {
     opentab: function(url) {
       window.open(url);
     },
     State: function() {
-       this.miniState =  !this.miniState;
-      setTimeout(function(){this.miniState =  !this.miniState;},2000); 
+      this.miniState = !this.miniState;
+      /* document.getElementsByClassName("vue-highcharts").style.marginRight =
+        "200px";
+      console.log(document.getElementsByClassName("vue-highcharts")); */
     }
   },
   data() {
@@ -145,6 +148,8 @@ export default {
       toolbar: false
     };
   },
-  components: {}
+  components: {
+    Settings
+  }
 };
 </script>

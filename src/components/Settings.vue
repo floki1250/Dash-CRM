@@ -1,22 +1,30 @@
 <template>
-    <q-dialog >
-        <q-card>
-            <q-card-section class="row items-center">
-                <q-avatar icon="signal_wifi_off" color="primary" text-color="white" />
-                <span class="q-ml-sm">You are currently not connected to any network.</span>
-            </q-card-section>
-            <q-card-actions align="right">
-                <q-btn flat label="Cancel" color="primary" v-close-popup />
-                <q-btn flat label="Turn on Wifi" color="primary" v-close-popup />
-            </q-card-actions>
-        </q-card>
-    </q-dialog>
+  <q-dialog v-model="settings">
+    <q-card>
+      <q-card-section class="row items-center">
+        <q-avatar icon="signal_wifi_off" color="primary" text-color="white" />
+        <span class="q-ml-sm"
+          >You are currently not connected to any network.</span
+        >
+      </q-card-section>
+      <q-card-actions align="right">
+        <q-btn flat label="Cancel" color="primary" v-close-popup />
+        <q-btn flat label="Turn on Wifi" color="primary" v-close-popup />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 <script>
-import { defineComponent } from 'vue'
-export default defineComponent({
-name : 'Settings'
-}) 
-    
-
+export default {
+  name: "Settings",
+  data() {
+    return {
+      hello: "Hello",
+      settings
+    };
+  },
+  props: [],
+  methods: {},
+  created: function() {}
+};
 </script>
