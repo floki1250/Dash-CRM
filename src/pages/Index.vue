@@ -2,7 +2,7 @@
   <q-page class="flex page">
     <div class="row justify-between headerBar">
       <div class="overview text">Overview</div>
-      <q-dialog v-model="searchbar">
+      <q-dialog v-model="searchbar" :position="searchbarPos" >
         <div class="fluent">
           <q-input
             bottom-slots
@@ -132,23 +132,7 @@
         onclick="()';"
         style="cursor: pointer; height:400px ; flex:0.5 ;"
       >
-        <q-scroll-area
-          style="width:100%;text-align:center;padding:20px 0px 0px 0px;"
-        >
-          <div>
-            <q-separator />
-            <p>Top Selling Product</p>
-            <div>
-              <p>Samsung S21</p>
-              <p>55555 $</p>
-            </div>
-          </div>
-          <q-separator />
-          <div>
-            <p>least Selling Product</p>
-            <q-icon name="top" />
-          </div>
-        </q-scroll-area>
+       
       </div>
       <div class="widget fluent" style="padding:10px;width:100%;">
         <q-table
@@ -167,6 +151,55 @@
       </div>
       <Settings />
     </div>
+    <q-dialog v-model="calc" :position="positionCalc" seamless  >
+      
+      <q-card style="padding:20px;border-radius:20px;" >
+        <q-btn color="black" icon="close" v-close-popup round flat/>
+        
+        <table border="0">
+          <tr>
+            <td colspan="3">
+              <q-input type="text" id="result" rounded dense />
+            </td>
+            <!-- clr() function will call clr to clear all label -->
+            <td><q-btn label="C" @click="clr()" color="orange" round /></td>
+          </tr>
+          <tr>
+            <!-- create button and assign label to each button -->
+            <!-- dis("1") will call function dis to display label -->
+            <td><q-btn label="1" round @click="dis('1')" /></td>
+            <td><q-btn label="2" round @click="dis('2')" /></td>
+            <td><q-btn label="3" round @click="dis('3')" /></td>
+            <td><q-btn label="/" round @click="dis('/')" color="black" /></td>
+          </tr>
+          <tr>
+            <td><q-btn label="4" round @click="dis('4')" /></td>
+            <td><q-btn label="5" round @click="dis('5')" /></td>
+            <td><q-btn label="6" round @click="dis('6')" /></td>
+            <td><q-btn label="-" round @click="dis('-')" color="black" /></td>
+          </tr>
+          <tr>
+            <td><q-btn label="7" round @click="dis('7')" /></td>
+            <td><q-btn label="8" round @click="dis('8')" /></td>
+            <td><q-btn label="9" round @click="dis('9')" /></td>
+            <td><q-btn label="+" round @click="dis('+')" color="black" /></td>
+          </tr>
+          <tr>
+            <td><q-btn label="." round @click="dis('.')" /></td>
+            <td><q-btn label="0" round @click="dis('0')" /></td>
+            <!-- solve function call function solve to evaluate label -->
+            <td><q-btn label="=" @click="solve()" round color="indigo-8" /></td>
+            <td>
+              <q-btn label="x" round @click="dis('*')" color="black" />
+            </td>
+          </tr>
+        </table>
+       
+      </q-card>
+    </q-dialog>
+    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+            <q-btn fab icon="las la-calculator" color="indigo-6" @click="calc=true" />
+          </q-page-sticky>
   </q-page>
 </template>
 
@@ -183,11 +216,14 @@ export default {
   },
   data() {
     return {
+      positionCalc: 'right' ,
+      calc : false ,
       yt: false,
       inputTextSearch: "",
       DataTable: json,
       username: "Roboto Dakasuki Mora",
       searchbar: false,
+      searchbarPos : 'top' ,
       areaOptions: data.AreaData,
       selected: [],
       columns: [
