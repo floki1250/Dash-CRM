@@ -2,7 +2,7 @@
   <q-page class="flex page">
     <div class="row justify-between headerBar">
       <div class="overview text">Overview</div>
-      <q-dialog v-model="searchbar" :position="searchbarPos" >
+      <q-dialog v-model="searchbar" :position="searchbarPos">
         <div class="fluent">
           <q-input
             bottom-slots
@@ -51,8 +51,8 @@
               >+5</q-badge
             ></q-btn
           >
-          <q-popup-edit :cover="false" style="background:transparent">
-            <div style="height: 200px; width:150px">
+          <q-popup-edit :cover="false" style="background:transparent;margin:0px;padding:0px">
+            <div style="height: 200px; width:150px; margin:0px">
               <q-scroll-area style="height: 200px; width:100% ; margin:0px">
                 <q-item
                   clickable
@@ -69,7 +69,7 @@
         <div class="row" style="margin:2px">
           <p style="padding: 10px 10px 0px 5px" class="text">{{ username }}</p>
 
-          <q-avatar size="40px" @click="refresh">
+          <q-avatar size="40px">
             <img src="~/assets/avatar.png" alt="" />
           </q-avatar>
         </div>
@@ -118,7 +118,6 @@
 
       <div
         class="widget fluent"
-        @click="refresh"
         style="cursor: pointer; height:400px ;min-width:400px;flex:2;"
       >
         <vue-highcharts
@@ -131,12 +130,10 @@
         class="widget fluent"
         onclick="()';"
         style="cursor: pointer; height:400px ; flex:0.5 ;"
-      >
-       
-      </div>
+      ></div>
       <div class="widget fluent" style="padding:10px;width:100%;">
         <q-table
-          title="Treats"
+          title="Test"
           :columns="columns"
           row-key="name"
           selection="single"
@@ -147,15 +144,31 @@
           table-header-class="text-black"
           style="width:100%"
           :data="DataTable.data"
-        />
+          :loading="loading"
+          :filter="filter"
+          @request="onRequest"
+          binary-state-sort
+        >
+          <template v-slot:top-right>
+            <q-input
+              borderless
+              dense
+              debounce="300"
+              v-model="filter"
+              placeholder="Search"
+            >
+              <template v-slot:append>
+                <q-icon name="search" />
+              </template>
+            </q-input>
+          </template>
+        </q-table>
       </div>
-      <Settings />
     </div>
-    <q-dialog v-model="calc" :position="positionCalc" seamless  >
-      
-      <q-card style="padding:20px;border-radius:20px;" >
-        <q-btn color="black" icon="close" v-close-popup round flat/>
-        
+    <q-dialog v-model="calc" :position="positionCalc" seamless>
+      <q-card style="padding:20px;border-radius:20px;">
+        <q-btn color="black" icon="close" v-close-popup round flat />
+
         <table border="0">
           <tr>
             <td colspan="3">
@@ -194,12 +207,39 @@
             </td>
           </tr>
         </table>
-       
       </q-card>
     </q-dialog>
-    <q-page-sticky position="bottom-right" :offset="[18, 18]">
-            <q-btn fab icon="las la-calculator" color="indigo-6" @click="calc=true" />
-          </q-page-sticky>
+    <q-page-sticky position="bottom-right" :offset="fabPos">
+      <q-btn
+        fab
+        icon="las la-calculator"
+        color="indigo-6"
+        @click="calc = true"
+        :disable="draggingFab"
+        v-touch-pan.prevent.mouse="moveFab"
+      />
+    </q-page-sticky>
+    <!-- Context Menu  -->
+    <q-menu touch-position context-menu>
+      <q-list dense style="min-width: 100px ; margin:10px 0px 5px 0px">
+        <q-item clickable v-close-popup>
+           <div class="row"><q-icon name="las la-external-link-alt" size="xs" style="padding-right:10px"/>Open</div>
+        </q-item>
+        <q-item clickable v-close-popup>
+          <q-item-section @click="CopyData(JSON.stringify(selected))" >
+            <div class="row"><q-icon name="las la-copy" size="sm" style="padding-right:5px"/>Copy</div>
+          </q-item-section>
+        </q-item>
+        <q-separator />
+        <q-item clickable>
+          <q-item-section @click="exportTable" no-caps
+            ><div class="row"><q-icon name="las la-file-export" size="sm" style="padding-right:5px"/>Export</div></q-item-section
+          >
+        </q-item>
+        <q-separator />
+       
+      </q-list>
+    </q-menu>
   </q-page>
 </template>
 
@@ -207,8 +247,29 @@
 import VueHighcharts from "vue2-highcharts";
 import * as data from "src/assets/Data.js";
 import json from "src/assets/DataTable.json";
-import Settings from "components/Settings.vue";
+import { copyToClipboard } from "quasar";
+import { exportFile } from "quasar";
 
+function wrapCsvValue(val, formatFn) {
+  let formatted = formatFn !== void 0 ? formatFn(val) : val;
+
+  formatted =
+    formatted === void 0 || formatted === null ? "" : String(formatted);
+
+  formatted = formatted
+    .split('"')
+    .join('""')
+    /**
+     * Excel accepts \n and \r in strings, but some other CSV parsers do not
+     * Uncomment the next two lines to escape new lines
+     */
+    .split("\n")
+    .join("\\n")
+    .split("\r")
+    .join("\\r");
+
+  return `"${formatted}"`;
+}
 export default {
   name: "Home",
   components: {
@@ -216,14 +277,18 @@ export default {
   },
   data() {
     return {
-      positionCalc: 'right' ,
-      calc : false ,
+      fabPos: [18, 18],
+      draggingFab: false,
+      filter: "",
+      loading: false,
+      positionCalc: "right",
+      calc: false,
       yt: false,
       inputTextSearch: "",
       DataTable: json,
       username: "Roboto Dakasuki Mora",
       searchbar: false,
-      searchbarPos : 'top' ,
+      searchbarPos: "top",
       areaOptions: data.AreaData,
       selected: [],
       columns: [
@@ -265,18 +330,46 @@ export default {
     };
   },
 
-  mounted() {},
+  mounted() {
+    this.onRequest({
+      filter: undefined
+    });
+  },
   methods: {
-    refresh: function() {
-      var x = document.getElementByClassName("highcharts-container ").innerHTML;
-      document.getElementByClassName("highcharts-container ").innerHTML = x;
+    // refresh: function() {},
+    moveFab(ev) {
+      this.draggingFab = ev.isFirst !== true && ev.isFinal !== true;
+
+      this.fabPos = [this.fabPos[0] - ev.delta.x, this.fabPos[1] - ev.delta.y];
     },
-    scrolled(position) {
-      // when this method is invoked then it means user
-      // has scrolled the page to `position`
-      //
-      // `position` is an Integer designating the current
-      // scroll position in pixels.
+    exportTable() {
+      // naive encoding to csv format
+      const content = [this.columns.map(col => wrapCsvValue(col.label))]
+        .concat(
+          this.data.map(row =>
+            this.columns
+              .map(col =>
+                wrapCsvValue(
+                  typeof col.field === "function"
+                    ? col.field(row)
+                    : row[col.field === void 0 ? col.name : col.field],
+                  col.format
+                )
+              )
+              .join(",")
+          )
+        )
+        .join("\r\n");
+
+      const status = exportFile("table-export.csv", content, "text/csv");
+
+      if (status !== true) {
+        this.$q.notify({
+          message: "Browser denied file download...",
+          color: "negative",
+          icon: "warning"
+        });
+      }
     },
     showNotif(position) {
       setTimeout(() => {
@@ -287,6 +380,111 @@ export default {
           progress: true
         });
       }, 50);
+    },
+    CopyData(CopyTab) {
+      let CSVData = "";
+      // set the column names
+      for (const value of Object.keys(CopyTab[0][0])) {
+        CSVData = CSVData.concat(value + ",");
+      }
+      CSVData = CSVData.slice(0, CSVData.length - 1);
+      CSVData = CSVData.concat("\n");
+
+      // parse the data
+      for (const tbl of CopyTab) {
+        for (const row of tbl) {
+          for (const value of Object.values(row)) {
+            CSVData = CSVData.concat(value + ",");
+          }
+          CSVData = CSVData.slice(0, CSVData.length - 2);
+          CSVData = CSVData.concat("\n");
+        }
+      }
+      copyToClipboard(CopyTab)
+        .then(() => {
+          // success!
+        })
+        .catch(() => {
+          // fail
+        });
+      document.getElementById("csvdata").innerText = CSVData;
+    },
+    onRequest(props) {
+      const { page, rowsPerPage, sortBy, descending } = props.pagination;
+      const filter = props.filter;
+
+      this.loading = true;
+
+      // emulate server
+      setTimeout(() => {
+        // update rowsCount with appropriate value
+        this.pagination.rowsNumber = this.getRowsNumberCount(filter);
+
+        // get all rows if "All" (0) is selected
+        const fetchCount =
+          rowsPerPage === 0 ? this.pagination.rowsNumber : rowsPerPage;
+
+        // calculate starting row of data
+        const startRow = (page - 1) * rowsPerPage;
+
+        // fetch data from "server"
+        const returnedData = this.fetchFromServer(
+          startRow,
+          fetchCount,
+          filter,
+          sortBy,
+          descending
+        );
+
+        // clear out existing data and add new
+        this.data.splice(0, this.data.length, ...returnedData);
+
+        // don't forget to update local pagination object
+        this.pagination.page = page;
+        this.pagination.rowsPerPage = rowsPerPage;
+        this.pagination.sortBy = sortBy;
+        this.pagination.descending = descending;
+
+        // ...and turn of loading indicator
+        this.loading = false;
+      }, 1500);
+    },
+
+    // emulate ajax call
+    // SELECT * FROM ... WHERE...LIMIT...
+    fetchFromServer(startRow, count, filter, sortBy, descending) {
+      const data = filter
+        ? this.original.filter(row => row.name.includes(filter))
+        : this.original.slice();
+
+      // handle sortBy
+      if (sortBy) {
+        const sortFn =
+          sortBy === "desc"
+            ? descending
+              ? (a, b) => (a.name > b.name ? -1 : a.name < b.name ? 1 : 0)
+              : (a, b) => (a.name > b.name ? 1 : a.name < b.name ? -1 : 0)
+            : descending
+            ? (a, b) => parseFloat(b[sortBy]) - parseFloat(a[sortBy])
+            : (a, b) => parseFloat(a[sortBy]) - parseFloat(b[sortBy]);
+        data.sort(sortFn);
+      }
+
+      return data.slice(startRow, startRow + count);
+    },
+
+    // emulate 'SELECT count(*) FROM ...WHERE...'
+    getRowsNumberCount(filter) {
+      if (!filter) {
+        return this.original.length;
+      }
+      let count = 0;
+      this.original.forEach(treat => {
+        if (treat.name.includes(filter)) {
+          ++count;
+        }
+      });
+      return count;
     }
   },
   components: {

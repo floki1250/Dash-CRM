@@ -55,7 +55,7 @@
         </q-item>
       </q-list>
     </q-drawer>
-    <Settings v-model="setting" />
+    
     <q-dialog v-model="toolbar">
       <q-card>
         <q-toolbar>
@@ -149,7 +149,7 @@ export default {
     };
   },
   components: {
-    Settings
+    
   }
 };
 </script>
