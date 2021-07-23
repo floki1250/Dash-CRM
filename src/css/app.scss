@@ -1,12 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Mulish&display=swap");
 $chartWidth: 20%;
-$fluent: rgba(#fff, 0.4);
-$grey : #e4e4e4d2;
-$bg : "../assets/bg-light.jpg";
-:export {
-  fluent: $fluent;
-  bg:$bg;
-}
+
+$bg: "../assets/bg-light.jpg";
+$bg-dark: "../assets/bg-dark.jpg";
+
 //------------------
 .text-brand {
   color: #2b3f66;
@@ -14,153 +11,304 @@ $bg : "../assets/bg-light.jpg";
 .bg-brand {
   background: #2b3f66;
 }
-  
-.headerBar{
-  position: sticky;
-  top: 1px;
-  right: 25%;
-  left: 5%;
-  background-color: $fluent ;
-  box-shadow: 0 0 10px rgba(#000, 0.3);
-  backdrop-filter: blur(10px);
-  padding-top: 5px;
-  width: 100%;
-  height: fit-content;
-  margin: 20px 10px 10px 10px;
-  border-radius: 20px;
-  z-index: 1;
-  scroll-behavior: smooth;
-}
-.item {
-  font-family: "Mulish", sans-serif;
-  text-align: left;
-  color: $grey;
-  font-size: 16px;
-  border-radius: 20px;
-}
-.item:hover {
-  border-radius: 20px;
-  font-weight: bold;
-  color: $primary;
-}
-.title-logo {
-  border-radius: 20px;
-  font-family: "Mulish", sans-serif;
-  text-align: center;
-  color: $grey;
-  font-weight: 400;
-  font-size: 19px;
-  margin-bottom: 50px;
-}
-.title-logo:hover {
-  border-radius: 20px;
-  color: $primary;
-  font-weight: bold;
-}
-.page {
-  display: flex;
-  background-image: url($bg);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
- 
-}
 
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
+.body--light {
+  .headerBar {
+    position: sticky;
+    top: 1px;
+    right: 25%;
+    left: 5%;
+    background-color: rgba(#fff, 0.4);
+    box-shadow: 0 0 10px rgba(#000, 0.3);
+    backdrop-filter: blur(10px);
+    padding-top: 5px;
+    width: 100%;
+    height: fit-content;
+    margin: 20px 10px 10px 10px;
+    border-radius: 20px;
+    z-index: 1;
+    scroll-behavior: smooth;
   }
-  50% {
-    background-position: 100% 50%;
+  .item {
+    font-family: "Mulish", sans-serif;
+    text-align: left;
+    color: $grey;
+    font-size: 16px;
+    border-radius: 20px;
   }
-  100% {
-    background-position: 0% 50%;
+  .item:hover {
+    border-radius: 20px;
+    font-weight: bold;
+    color: $primary;
   }
-}
+  .title-logo {
+    border-radius: 20px;
+    font-family: "Mulish", sans-serif;
+    text-align: center;
+    color: $grey;
+    font-weight: 400;
+    font-size: 19px;
+    margin-bottom: 50px;
+  }
+  .title-logo:hover {
+    border-radius: 20px;
+    color: $primary;
+    font-weight: bold;
+  }
+  .page {
+    display: flex;
+    background-image: url($bg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
 
-.widget {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 20px 10px 10px 10px;
-  
-  border-radius: 15px;
-  width: fit-content;
-  min-width: 100px;
-  padding: 5px 10px 5px 10px;
-  height: fit-content;
-  min-height: 100px;
-  overflow-wrap: break-word;
-}
-.highcharts-background {
-  fill: transparent;
-}
-.q-table__card {
-  color: #000;
-  background-color: #fff0;
-  border-radius: 4px;
-  box-shadow: 0 0px 0px;
-}
-.info {
-  font-family: "Mulish", sans-serif;
-  font-weight: bold;
-}
-.overview {
-  padding: 10px 15px 15px 15px;
-  width: fit-content;
-}
-.text {
-  font-family: "Mulish", sans-serif;
-  font-weight: bold;
-  color: grey;
-}
-.vue-highcharts {
-  width: 82%;
-  -webkit-margin-collapse: collapse;
-}
-.fluent {
-  background-color: $fluent ;
-  box-shadow: 0 0 3px rgba(#000, 0.3);
-  backdrop-filter: blur(10px);
-}
-.q-menu {
-  background-color: $fluent ;
-  box-shadow: 0 0 3px rgba(#000, 0.3);
-  backdrop-filter: blur(15px);
-  border-radius: 15px;
-}
-.q-card {
-  background-color: $fluent ;
-  box-shadow: 0 0 3px rgba(#000, 0.8);
-  backdrop-filter: blur(10px);
-  border-radius: 2rem;
-}
-// Context Menu style
-#right-click-menu{
-  background: #FAFAFA;
-  border: 1px solid #BDBDBD;
-  box-shadow: 0 2px 2px 0 rgba(0,0,0,.14),0 3px 1px -2px rgba(0,0,0,.2),0 1px 5px 0 rgba(0,0,0,.12);
-  display: block;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  position: absolute;
-  width: 250px;
-  z-index: 999999;
-}
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
 
-#right-click-menu li {
-  border-bottom: 1px solid #E0E0E0;
-  margin: 0;
-  padding: 5px 35px;
-}
+  .widget {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 20px 10px 10px 10px;
 
-#right-click-menu li:last-child {
-  border-bottom: none;
-}
+    border-radius: 15px;
+    width: fit-content;
+    min-width: 100px;
+    padding: 5px 10px 5px 10px;
+    height: fit-content;
+    min-height: 100px;
+    overflow-wrap: break-word;
+  }
+  .highcharts-background {
+    fill: transparent;
+  }
+  .q-table__card {
+    color: #000;
+    background-color: #fff0;
+    border-radius: 4px;
+    box-shadow: 0 0px 0px;
+  }
+  .info {
+    font-family: "Mulish", sans-serif;
+    font-weight: bold;
+  }
+  .overview {
+    padding: 10px 15px 15px 15px;
+    width: fit-content;
+  }
+  .text {
+    font-family: "Mulish", sans-serif;
+    font-weight: bold;
+    color: grey;
+  }
+  .vue-highcharts {
+    width: 82%;
+    -webkit-margin-collapse: collapse;
+  }
+  .fluent {
+    background-color: rgba(#fff, 0.4);
+    box-shadow: 0 0 3px rgba(#000, 0.3);
+    backdrop-filter: blur(10px);
+  }
+  .q-menu {
+    background-color: rgba(#fff, 0.4);
+    box-shadow: 0 0 3px rgba(#000, 0.3);
+    backdrop-filter: blur(15px);
+    border-radius: 15px;
+  }
+  .q-card {
+    background-color: rgba(#fff, 0.4);
+    box-shadow: 0 0 3px rgba(#000, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 2rem;
+  }
+  // Context Menu style
+  #right-click-menu {
+    background: #fafafa;
+    border: 1px solid #bdbdbd;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    display: block;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    width: 250px;
+    z-index: 999999;
+  }
 
-#right-click-menu li:hover {
-  background: #1E88E5;
-  color: #FAFAFA;
-}
+  #right-click-menu li {
+    border-bottom: 1px solid #e0e0e0;
+    margin: 0;
+    padding: 5px 35px;
+  }
 
-//-----------Dark Mode----------------
+  #right-click-menu li:last-child {
+    border-bottom: none;
+  }
+
+  #right-click-menu li:hover {
+    background: #1e88e5;
+    color: #fafafa;
+  }
+
+  //-----------Dark Mode----------------
+}
+.body--dark {
+  .headerBar {
+    position: sticky;
+    top: 1px;
+    right: 25%;
+    left: 5%;
+    background-color: rgba(#000, 0.4);
+    box-shadow: 0 0 10px rgba(#000, 0.3);
+    backdrop-filter: blur(10px);
+    padding-top: 5px;
+    width: 100%;
+    height: fit-content;
+    margin: 20px 10px 10px 10px;
+    border-radius: 20px;
+    z-index: 1;
+    scroll-behavior: smooth;
+  }
+  .item {
+    font-family: "Mulish", sans-serif;
+    text-align: left;
+    color: rgb(212, 212, 212);
+    font-size: 16px;
+    border-radius: 20px;
+  }
+  .item:hover {
+    border-radius: 20px;
+    font-weight: bold;
+    color: $primary;
+  }
+  .title-logo {
+    border-radius: 20px;
+    font-family: "Mulish", sans-serif;
+    text-align: center;
+    color: $grey;
+    font-weight: 400;
+    font-size: 19px;
+    margin-bottom: 50px;
+  }
+  .title-logo:hover {
+    border-radius: 20px;
+    color: $primary;
+    font-weight: bold;
+  }
+  .page {
+    display: flex;
+    background-image: url($bg-dark);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .widget {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 20px 10px 10px 10px;
+
+    border-radius: 15px;
+    width: fit-content;
+    min-width: 100px;
+    padding: 5px 10px 5px 10px;
+    height: fit-content;
+    min-height: 100px;
+    overflow-wrap: break-word;
+  }
+  .highcharts-background {
+    fill: transparent;
+  }
+  .q-table__card {
+    color: rgb(212, 212, 212);
+    background-color: #fff0;
+    border-radius: 4px;
+    box-shadow: 0 0px 0px;
+  }
+  .info {
+    font-family: "Mulish", sans-serif;
+    font-weight: bold;
+  }
+  .overview {
+    padding: 10px 15px 15px 15px;
+    width: fit-content;
+  }
+  .text {
+    font-family: "Mulish", sans-serif;
+    font-weight: bold;
+    color: rgb(212, 212, 212);
+  }
+  .vue-highcharts {
+    width: 82%;
+    -webkit-margin-collapse: collapse;
+  }
+  .fluent {
+    background-color: rgba(#000, 0.2);
+    box-shadow: 0 0 3px rgba(#000, 0.3);
+    backdrop-filter: blur(10px);
+  }
+  .q-menu {
+    background-color: rgba(#000, 0.4);
+    box-shadow: 0 0 3px rgba(#000, 0.3);
+    backdrop-filter: blur(15px);
+    border-radius: 15px;
+  }
+  .q-card {
+    background-color: rgba(#000, 0.4);
+    box-shadow: 0 0 3px rgba(#000, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 2rem;
+  }
+  // Context Menu style
+  #right-click-menu {
+    background: #0a0a0a;
+    border: 1px solid #bdbdbd;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    display: block;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    width: 250px;
+    z-index: 999999;
+  }
+
+  #right-click-menu li {
+    border-bottom: 1px solid #e0e0e0;
+    margin: 0;
+    padding: 5px 35px;
+  }
+
+  #right-click-menu li:last-child {
+    border-bottom: none;
+  }
+
+  #right-click-menu li:hover {
+    background: #1e88e5;
+    color: #fafafa;
+  }
+
+  //-----------Dark Mode----------------
+}

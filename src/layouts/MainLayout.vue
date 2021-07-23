@@ -5,7 +5,7 @@
       show-if-above
       :mini="miniState"
       persistent
-      content-class="bg-listheadertoolbar"
+      content-class="bg-dark"
       :breakpoint="500"
     >
       <!-- drawer content -->
@@ -80,6 +80,7 @@
           <p class="info">Hi 👋, I'm Floki Web Developer</p>
           <p class="info">For Any Support You can Find me Here</p>
           <div class="row">
+            <input type="checkbox" class="theme-switch" v-model="darkMode" />
             <q-btn
               @click="opentab('https://twitter.com/Adem1250_Dr')"
               flat
@@ -129,11 +130,21 @@ import Settings from "components/Settings.vue";
 import variables from "../css/app.scss";
 
 export default {
+  data() {
+    return {
+      darkMode: false,
+      drawer: false,
+      miniState: true,
+      setting: false,
+      show: false,
+      toolbar: false
+    };
+  },
   methods: {
     Darkmode() {
       console.log(variables.fluent);
       console.log(variables.bg);
-      variables.fluent = "rgba(0,0,0,0.4)" ;
+      variables.fluent = "rgba(0,0,0,0.4)";
     },
     opentab: function(url) {
       window.open(url);
@@ -145,14 +156,25 @@ export default {
       console.log(document.getElementsByClassName("vue-highcharts")); */
     }
   },
-  data() {
-    return {
-      drawer: false,
-      miniState: true,
-      setting: false,
-      show: false,
-      toolbar: false
-    };
+
+  mounted() {
+    // set 'app-background' class to body
+    let bodyElement = document.body;
+    bodyElement.classList.add("app-background");
+  },
+  watch: {
+    darkMode: function() {
+      // add/remove class to/from html tag
+      let htmlElement = document.documentElement;
+
+      if (this.darkMode) {
+        localStorage.setItem("theme", "dark");
+        htmlElement.setAttribute("theme", "dark");
+      } else {
+        localStorage.setItem("theme", "light");
+        htmlElement.setAttribute("theme", "light");
+      }
+    }
   },
   components: {}
 };

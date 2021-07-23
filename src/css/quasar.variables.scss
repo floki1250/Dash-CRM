@@ -27,6 +27,7 @@ $listHeaderToolbar: #2b3f66;
 :root {
   --q-color-listheadertoolbar: $listHeaderToolbar;
 }
+
 .bg-listheadertoolbar {
   background: $listHeaderToolbar !important ;
   background: var(--q-color-listheadertoolbar) !important;
