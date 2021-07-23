@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex page">
-    <div class="row justify-between headerBar">
+    <div class="row justify-between light headerBar">
       <div class="overview text">Overview</div>
       <q-dialog v-model="searchbar" :position="searchbarPos">
         <div class="fluent">
@@ -51,7 +51,11 @@
               >+5</q-badge
             ></q-btn
           >
-          <q-popup-edit :cover="false" style="background:transparent;margin:0px;padding:0px">
+          <q-popup-edit
+             value=""
+            :cover="false"
+            style="background:transparent;margin:0px;padding:0px"
+          >
             <div style="height: 200px; width:150px; margin:0px">
               <q-scroll-area style="height: 200px; width:100% ; margin:0px">
                 <q-item
@@ -84,7 +88,7 @@
                "
     >
       <div style="flex:0.7;">
-        <div class="widget fluent" onclick="()';" style="cursor: pointer; ">
+        <div class=" widget fluent" onclick="()';" style="cursor: pointer; ">
           <iframe
             src="https://free.timeanddate.com/clock/i7untxj0/n253/fn16/fs30/tct/pct/pa9/tt0/tw0/tm1/td2/th1/tb4"
             frameborder="0"
@@ -163,6 +167,43 @@
             </q-input>
           </template>
         </q-table>
+         <q-menu touch-position context-menu>
+      <q-list dense style="min-width: 100px ; margin:10px 0px 5px 0px">
+        <q-item clickable v-close-popup>
+          <div class="row">
+            <q-icon
+              name="las la-external-link-alt"
+              size="xs"
+              style="padding-right:10px"
+            />Open
+          </div>
+        </q-item>
+        <q-item clickable v-close-popup>
+          <q-item-section @click="CopyData(JSON.stringify(selected))">
+            <div class="row">
+              <q-icon
+                name="las la-copy"
+                size="sm"
+                style="padding-right:5px"
+              />Copy
+            </div>
+          </q-item-section>
+        </q-item>
+        <q-separator />
+        <q-item clickable>
+          <q-item-section @click="exportTable" no-caps
+            ><div class="row">
+              <q-icon
+                name="las la-file-export"
+                size="sm"
+                style="padding-right:5px"
+              />Export
+            </div></q-item-section
+          >
+        </q-item>
+        <q-separator />
+      </q-list>
+    </q-menu>
       </div>
     </div>
     <q-dialog v-model="calc" :position="positionCalc" seamless>
@@ -172,7 +213,14 @@
         <table border="0">
           <tr>
             <td colspan="3">
-              <q-input type="text" id="result" rounded dense />
+              <q-input
+                type="text"
+                id="result"
+                rounded
+                dense
+                v-model="text"
+                autogrow
+              />
             </td>
             <!-- clr() function will call clr to clear all label -->
             <td><q-btn label="C" @click="clr()" color="orange" round /></td>
@@ -213,33 +261,14 @@
       <q-btn
         fab
         icon="las la-calculator"
-        color="indigo-6"
+        color="brand"
         @click="calc = true"
         :disable="draggingFab"
         v-touch-pan.prevent.mouse="moveFab"
       />
     </q-page-sticky>
     <!-- Context Menu  -->
-    <q-menu touch-position context-menu>
-      <q-list dense style="min-width: 100px ; margin:10px 0px 5px 0px">
-        <q-item clickable v-close-popup>
-           <div class="row"><q-icon name="las la-external-link-alt" size="xs" style="padding-right:10px"/>Open</div>
-        </q-item>
-        <q-item clickable v-close-popup>
-          <q-item-section @click="CopyData(JSON.stringify(selected))" >
-            <div class="row"><q-icon name="las la-copy" size="sm" style="padding-right:5px"/>Copy</div>
-          </q-item-section>
-        </q-item>
-        <q-separator />
-        <q-item clickable>
-          <q-item-section @click="exportTable" no-caps
-            ><div class="row"><q-icon name="las la-file-export" size="sm" style="padding-right:5px"/>Export</div></q-item-section
-          >
-        </q-item>
-        <q-separator />
-       
-      </q-list>
-    </q-menu>
+   
   </q-page>
 </template>
 
@@ -277,6 +306,7 @@ export default {
   },
   data() {
     return {
+      text: "",
       fabPos: [18, 18],
       draggingFab: false,
       filter: "",
@@ -336,7 +366,16 @@ export default {
     });
   },
   methods: {
-    // refresh: function() {},
+    
+    clr() {
+      this.text = "";
+    },
+    solve() {
+      this.text = eval(this.text) ;
+    },
+    dis(d) {
+      this.text = this.text.concat(d);
+    },
     moveFab(ev) {
       this.draggingFab = ev.isFirst !== true && ev.isFinal !== true;
 

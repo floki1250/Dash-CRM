@@ -36,15 +36,7 @@
             Profile
           </q-item-section>
         </q-item>
-        <q-item clickable class="item" v-ripple @click="setting = true">
-          <q-item-section avatar>
-            <q-icon name="las la-cog" />
-          </q-item-section>
-          <q-item-section>
-            Settings
-          </q-item-section>
-          <!-- <Settings v-model="setting" />  -->
-        </q-item>
+
         <q-item @click="toolbar = true" clickable class="item" v-ripple>
           <q-item-section avatar>
             <q-icon name="las la-info-circle" />
@@ -53,9 +45,19 @@
             About Us
           </q-item-section>
         </q-item>
+
+        <q-item clickable class="item" v-ripple @click="Darkmode">
+          <q-item-section avatar>
+            <q-icon name="las la-cog" />
+          </q-item-section>
+          <q-item-section>
+            Settings
+          </q-item-section>
+          <!-- <Settings v-model="setting" />  -->
+        </q-item>
       </q-list>
     </q-drawer>
-    
+
     <q-dialog v-model="toolbar">
       <q-card>
         <q-toolbar>
@@ -72,10 +74,7 @@
             text-color="black"
             style="margin:20px;"
           >
-            <img
-              src="https://scontent.ftun16-1.fna.fbcdn.net/v/t1.6435-9/169409593_5207942349281246_8392409286670678548_n.jpg?_nc_cat=100&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=3shv-S2XfdoAX_OV46a&_nc_ht=scontent.ftun16-1.fna&oh=5bf886529f79bf9ce1947a039890a376&oe=60D0AA8D"
-              alt=""
-            />
+            <img src="../assets/avatar.png" alt="" />
           </q-avatar>
           <q-separator />
           <p class="info">Hi 👋, I'm Floki Web Developer</p>
@@ -127,8 +126,15 @@
 
 <script>
 import Settings from "components/Settings.vue";
+import variables from "../css/app.scss";
+
 export default {
   methods: {
+    Darkmode() {
+      console.log(variables.fluent);
+      console.log(variables.bg);
+      variables.fluent = "rgba(0,0,0,0.4)" ;
+    },
     opentab: function(url) {
       window.open(url);
     },
@@ -148,8 +154,6 @@ export default {
       toolbar: false
     };
   },
-  components: {
-    
-  }
+  components: {}
 };
 </script>
