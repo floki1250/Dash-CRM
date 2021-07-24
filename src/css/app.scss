@@ -1,8 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Mulish&display=swap");
 $chartWidth: 20%;
 
-$bg: "../assets/bg-light.jpg";
-$bg-dark: "../assets/bg-dark.jpg";
+$bg: "../assets/bg.jpg";
+$bg-dark: "../assets/bg.jpg";
 
 //------------------
 .text-brand {
@@ -32,7 +32,7 @@ $bg-dark: "../assets/bg-dark.jpg";
   .item {
     font-family: "Mulish", sans-serif;
     text-align: left;
-    color: $grey;
+    color: whitesmoke;
     font-size: 16px;
     border-radius: 20px;
   }
@@ -45,7 +45,7 @@ $bg-dark: "../assets/bg-dark.jpg";
     border-radius: 20px;
     font-family: "Mulish", sans-serif;
     text-align: center;
-    color: $grey;
+    color: whitesmoke;
     font-weight: 400;
     font-size: 19px;
     margin-bottom: 50px;
@@ -108,7 +108,7 @@ $bg-dark: "../assets/bg-dark.jpg";
   .text {
     font-family: "Mulish", sans-serif;
     font-weight: bold;
-    color: grey;
+    color: rgba(0, 0, 0, 0.7);
   }
   .vue-highcharts {
     width: 82%;
@@ -168,7 +168,7 @@ $bg-dark: "../assets/bg-dark.jpg";
     top: 1px;
     right: 25%;
     left: 5%;
-    background-color: rgba(#000, 0.4);
+    background-color: rgba(#000, 0.5);
     box-shadow: 0 0 10px rgba(#000, 0.3);
     backdrop-filter: blur(10px);
     padding-top: 5px;
@@ -195,7 +195,7 @@ $bg-dark: "../assets/bg-dark.jpg";
     border-radius: 20px;
     font-family: "Mulish", sans-serif;
     text-align: center;
-    color: $grey;
+    color: grey;
     font-weight: 400;
     font-size: 19px;
     margin-bottom: 50px;
@@ -229,7 +229,6 @@ $bg-dark: "../assets/bg-dark.jpg";
     display: flex;
     flex-wrap: wrap;
     margin: 20px 10px 10px 10px;
-
     border-radius: 15px;
     width: fit-content;
     min-width: 100px;
@@ -242,8 +241,8 @@ $bg-dark: "../assets/bg-dark.jpg";
     fill: transparent;
   }
   .q-table__card {
-    color: rgb(212, 212, 212);
-    background-color: #fff0;
+    color: rgb(39, 39, 39);
+    background-color: transparent ;
     border-radius: 4px;
     box-shadow: 0 0px 0px;
   }
@@ -258,14 +257,14 @@ $bg-dark: "../assets/bg-dark.jpg";
   .text {
     font-family: "Mulish", sans-serif;
     font-weight: bold;
-    color: rgb(212, 212, 212);
+    color: whitesmoke ;
   }
   .vue-highcharts {
     width: 82%;
     -webkit-margin-collapse: collapse;
   }
   .fluent {
-    background-color: rgba(#000, 0.2);
+    background-color: rgba(#000, 0.3);
     box-shadow: 0 0 3px rgba(#000, 0.3);
     backdrop-filter: blur(10px);
   }
@@ -311,4 +310,24 @@ $bg-dark: "../assets/bg-dark.jpg";
   }
 
   //-----------Dark Mode----------------
+}::-webkit-scrollbar {
+  width: 12px;
+}
+
+
+/* Track */
+::-webkit-scrollbar-track {
+  
+  background: rgb(211, 211, 211); 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(82, 82, 82); 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(64, 57, 90); 
 }

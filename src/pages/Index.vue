@@ -2,48 +2,10 @@
   <q-page class="flex page">
     <div class="row justify-between light headerBar">
       <div class="overview text">Overview</div>
-      <q-dialog v-model="searchbar" :position="searchbarPos">
-        <div class="fluent">
-          <q-input
-            bottom-slots
-            v-model="inputTextSearch"
-            style="width:500px"
-            :dense="true"
-            clearable
-            standout
-            bg-color="indigo-5"
-            autofocus
-          >
-            <template v-slot:prepend>
-              <q-icon name="las la-search" />
-            </template>
-          </q-input>
-          <div>
-            <q-scroll-area style="height: 200px;">
-              <div v-for="n in 50" :key="n">
-                <q-item clickable
-                  ><q-icon
-                    name="las la-search"
-                    size="20px"
-                    color="grey-8"
-                    style="padding-right: 10px"
-                  />
-                  <p style="color:grey">Result N°{{ n }}</p>
-                </q-item>
-              </div>
-            </q-scroll-area>
-          </div>
-        </div>
-      </q-dialog>
+
       <div class="row" style="position:absolute;right:2%;margin-left:200px;">
         <div>
-          <q-btn
-            color="grey"
-            icon="las la-search"
-            flat
-            round
-            @click="searchbar = true"
-          />
+          <q-btn color="grey" icon="las la-sun" flat round @click="Darkmode" />
         </div>
         <div>
           <q-btn color="grey" icon="las la-bell" flat round
@@ -52,7 +14,7 @@
             ></q-btn
           >
           <q-popup-edit
-             value=""
+            value=""
             :cover="false"
             style="background:transparent;margin:0px;padding:0px"
           >
@@ -144,7 +106,7 @@
           :selected.sync="selected"
           color="#e4e4e4d2"
           card-class="#e4e4e4d2"
-          table-class="text-grey-8"
+          table-class="text-black-8"
           table-header-class="text-black"
           style="width:100%"
           :data="DataTable.data"
@@ -167,112 +129,125 @@
             </q-input>
           </template>
         </q-table>
-         <q-menu touch-position context-menu>
-      <q-list dense style="min-width: 100px ; margin:10px 0px 5px 0px">
-        <q-item clickable v-close-popup>
-          <div class="row">
-            <q-icon
-              name="las la-external-link-alt"
-              size="xs"
-              style="padding-right:10px"
-            />Open
-          </div>
-        </q-item>
-        <q-item clickable v-close-popup>
-          <q-item-section @click="CopyData(JSON.stringify(selected))">
-            <div class="row">
-              <q-icon
-                name="las la-copy"
-                size="sm"
-                style="padding-right:5px"
-              />Copy
-            </div>
-          </q-item-section>
-        </q-item>
-        <q-separator />
-        <q-item clickable>
-          <q-item-section @click="exportTable" no-caps
-            ><div class="row">
-              <q-icon
-                name="las la-file-export"
-                size="sm"
-                style="padding-right:5px"
-              />Export
-            </div></q-item-section
-          >
-        </q-item>
-        <q-separator />
-      </q-list>
-    </q-menu>
+        <q-menu touch-position context-menu>
+          <q-list dense style="min-width: 100px ; margin:10px 0px 5px 0px">
+            <q-item clickable v-close-popup>
+              <div class="row">
+                <q-icon
+                  name="las la-external-link-alt"
+                  size="xs"
+                  style="padding-right:10px"
+                />Open
+              </div>
+            </q-item>
+            <q-item clickable v-close-popup>
+              <q-item-section @click="CopyData(JSON.stringify(selected))">
+                <div class="row">
+                  <q-icon
+                    name="las la-copy"
+                    size="sm"
+                    style="padding-right:5px"
+                  />Copy
+                </div>
+              </q-item-section>
+            </q-item>
+            <q-separator />
+            <q-item clickable>
+              <q-item-section @click="exportTable" no-caps
+                ><div class="row">
+                  <q-icon
+                    name="las la-file-export"
+                    size="sm"
+                    style="padding-right:5px"
+                  />Export
+                </div></q-item-section
+              >
+            </q-item>
+            <q-separator />
+          </q-list>
+        </q-menu>
       </div>
     </div>
-    <q-dialog v-model="calc" :position="positionCalc" seamless>
-      <q-card style="padding:20px;border-radius:20px;">
-        <q-btn color="black" icon="close" v-close-popup round flat />
 
-        <table border="0">
-          <tr>
-            <td colspan="3">
-              <q-input
-                type="text"
-                id="result"
-                rounded
-                dense
-                v-model="text"
-                autogrow
-              />
-            </td>
-            <!-- clr() function will call clr to clear all label -->
-            <td><q-btn label="C" @click="clr()" color="orange" round /></td>
-          </tr>
-          <tr>
-            <!-- create button and assign label to each button -->
-            <!-- dis("1") will call function dis to display label -->
-            <td><q-btn label="1" round @click="dis('1')" /></td>
-            <td><q-btn label="2" round @click="dis('2')" /></td>
-            <td><q-btn label="3" round @click="dis('3')" /></td>
-            <td><q-btn label="/" round @click="dis('/')" color="black" /></td>
-          </tr>
-          <tr>
-            <td><q-btn label="4" round @click="dis('4')" /></td>
-            <td><q-btn label="5" round @click="dis('5')" /></td>
-            <td><q-btn label="6" round @click="dis('6')" /></td>
-            <td><q-btn label="-" round @click="dis('-')" color="black" /></td>
-          </tr>
-          <tr>
-            <td><q-btn label="7" round @click="dis('7')" /></td>
-            <td><q-btn label="8" round @click="dis('8')" /></td>
-            <td><q-btn label="9" round @click="dis('9')" /></td>
-            <td><q-btn label="+" round @click="dis('+')" color="black" /></td>
-          </tr>
-          <tr>
-            <td><q-btn label="." round @click="dis('.')" /></td>
-            <td><q-btn label="0" round @click="dis('0')" /></td>
-            <!-- solve function call function solve to evaluate label -->
-            <td><q-btn label="=" @click="solve()" round color="indigo-8" /></td>
-            <td>
-              <q-btn label="x" round @click="dis('*')" color="black" />
-            </td>
-          </tr>
-        </table>
-      </q-card>
-    </q-dialog>
     <q-page-sticky position="bottom-right" :offset="fabPos">
-      <q-btn
-        fab
+      <q-fab
+        direction="up"
         icon="las la-calculator"
         color="brand"
         @click="calc = true"
         :disable="draggingFab"
         v-touch-pan.prevent.mouse="moveFab"
-      />
+        vertical-actions-align="right"
+      >
+        
+          <q-card
+            style="padding:20px;border-radius:20px;"
+            :disable="draggingFab"
+            v-touch-pan.prevent.mouse="moveFab"
+          >
+            <table border="0">
+              <tr>
+                <td colspan="3">
+                  <q-input
+                    type="text"
+                    id="result"
+                    rounded
+                    dense
+                    v-model="text"
+                    autogrow
+                  />
+                </td>
+                <!-- clr() function will call clr to clear all label -->
+                <td><q-btn label="C" @click="clr()" color="orange" round /></td>
+              </tr>
+              <tr>
+                <!-- create button and assign label to each button -->
+                <!-- dis("1") will call function dis to display label -->
+                <td><q-btn label="1" round @click="dis('1')" /></td>
+                <td><q-btn label="2" round @click="dis('2')" /></td>
+                <td><q-btn label="3" round @click="dis('3')" /></td>
+                <td>
+                  <q-btn label="/" round @click="dis('/')" color="black" />
+                </td>
+              </tr>
+              <tr>
+                <td><q-btn label="4" round @click="dis('4')" /></td>
+                <td><q-btn label="5" round @click="dis('5')" /></td>
+                <td><q-btn label="6" round @click="dis('6')" /></td>
+                <td>
+                  <q-btn label="-" round @click="dis('-')" color="black" />
+                </td>
+              </tr>
+              <tr>
+                <td><q-btn label="7" round @click="dis('7')" /></td>
+                <td><q-btn label="8" round @click="dis('8')" /></td>
+                <td><q-btn label="9" round @click="dis('9')" /></td>
+                <td>
+                  <q-btn label="+" round @click="dis('+')" color="black" />
+                </td>
+              </tr>
+              <tr>
+                <td><q-btn label="." round @click="dis('.')" /></td>
+                <td><q-btn label="0" round @click="dis('0')" /></td>
+                <!-- solve function call function solve to evaluate label -->
+                <td>
+                  <q-btn label="=" @click="solve()" round color="indigo-8" />
+                </td>
+                <td>
+                  <q-btn label="x" round @click="dis('*')" color="black" />
+                </td>
+              </tr>
+            </table>
+          </q-card>
+       
+      </q-fab>
     </q-page-sticky>
     <!-- Context Menu  -->
-   
   </q-page>
 </template>
 
 <script>
+import { Dark } from "quasar";
 import VueHighcharts from "vue2-highcharts";
 import * as data from "src/assets/Data.js";
 import json from "src/assets/DataTable.json";
@@ -366,12 +341,14 @@ export default {
     });
   },
   methods: {
-    
+    Darkmode() {
+      Dark.toggle();
+    },
     clr() {
       this.text = "";
     },
     solve() {
-      this.text = eval(this.text) ;
+      this.text = eval(this.text);
     },
     dis(d) {
       this.text = this.text.concat(d);
