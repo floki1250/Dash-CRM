@@ -33,7 +33,9 @@
         </div>
         <q-separator vertical style="margin:10px" />
         <div class="row" style="margin:2px">
-          <p style="padding: 10px 10px 0px 5px" class="text">{{ username }}</p>
+          <p style="padding: 10px 10px 0px 5px" class="text">
+            {{ username }}
+          </p>
 
           <q-avatar size="40px">
             <img src="~/assets/avatar.png" alt="" />
@@ -64,21 +66,69 @@
           onclick="()';"
           style="cursor: pointer;  width:90% ;height:65%"
         >
-          <q-btn
-            color="white"
-            icon="las la-music"
-            @click="yt = !yt"
-            size="50px"
-            style="width:100px;height:100px;position:relative;top:30%;left:30%;z-index:1"
-            flat
-            rounded
-            dense
-          />
-          <q-video
-            v-show="yt"
-            class="absolute-full"
-            src="https://www.youtube.com/embed/ylfDBdEXrBQ"
-          />
+          <q-carousel
+            v-model="slide"
+            transition-prev="jump-right"
+            transition-next="jump-left"
+            swipeable
+            animated
+            control-color="grey-8"
+            control-type="flat"
+            prev-icon="arrow_left"
+            next-icon="arrow_right"
+            navigation-icon="radio_button_unchecked"
+            navigation
+            padding
+            arrows
+            height="100%"
+            width="100%"
+            class="bg-transparent text-black rounded-borders"
+          >
+            <q-carousel-slide
+              name="las la-chart-area"
+              class="column no-wrap flex-center"
+            >
+              <q-icon size="56px"
+                ><img src="../assets/growth.svg" alt=""
+              /></q-icon>
+              <div class="q-mt-md text-center">
+                Revenue Increased By 5% this Month
+              </div>
+            </q-carousel-slide>
+            <q-carousel-slide
+              name="las la-chart-bar"
+              class="column no-wrap flex-center"
+            >
+              <q-icon size="56px"
+                ><img src="../assets/decrease.svg" alt=""
+              /></q-icon>
+              <div class="q-mt-md text-center">
+                Lost 500$ this Week
+              </div>
+            </q-carousel-slide>
+            <q-carousel-slide
+              name="las la-project-diagram"
+              class="column no-wrap flex-center"
+            >
+              <q-icon size="56px"
+                ><img src="../assets/bank.svg" alt=""
+              /></q-icon>
+              <div class="q-mt-md text-center">
+                Added 1000$ To the Bank
+              </div>
+            </q-carousel-slide>
+            <q-carousel-slide
+              name="las la-chart-line"
+              class="column no-wrap flex-center"
+            >
+              <q-icon size="56px"
+                ><img src="../assets/balance.svg" alt=""
+              /></q-icon>
+              <div class="q-mt-md text-center">
+                Your Balance 20,000,000 $
+              </div>
+            </q-carousel-slide>
+          </q-carousel>
         </div>
       </div>
 
@@ -112,7 +162,6 @@
           :data="DataTable.data"
           :loading="loading"
           :filter="filter"
-          @request="onRequest"
           binary-state-sort
         >
           <template v-slot:top-right>
@@ -179,67 +228,65 @@
         v-touch-pan.prevent.mouse="moveFab"
         vertical-actions-align="right"
       >
-        
-          <q-card
-            style="padding:20px;border-radius:20px;"
-            :disable="draggingFab"
-            v-touch-pan.prevent.mouse="moveFab"
-          >
-            <table border="0">
-              <tr>
-                <td colspan="3">
-                  <q-input
-                    type="text"
-                    id="result"
-                    rounded
-                    dense
-                    v-model="text"
-                    autogrow
-                  />
-                </td>
-                <!-- clr() function will call clr to clear all label -->
-                <td><q-btn label="C" @click="clr()" color="orange" round /></td>
-              </tr>
-              <tr>
-                <!-- create button and assign label to each button -->
-                <!-- dis("1") will call function dis to display label -->
-                <td><q-btn label="1" round @click="dis('1')" /></td>
-                <td><q-btn label="2" round @click="dis('2')" /></td>
-                <td><q-btn label="3" round @click="dis('3')" /></td>
-                <td>
-                  <q-btn label="/" round @click="dis('/')" color="black" />
-                </td>
-              </tr>
-              <tr>
-                <td><q-btn label="4" round @click="dis('4')" /></td>
-                <td><q-btn label="5" round @click="dis('5')" /></td>
-                <td><q-btn label="6" round @click="dis('6')" /></td>
-                <td>
-                  <q-btn label="-" round @click="dis('-')" color="black" />
-                </td>
-              </tr>
-              <tr>
-                <td><q-btn label="7" round @click="dis('7')" /></td>
-                <td><q-btn label="8" round @click="dis('8')" /></td>
-                <td><q-btn label="9" round @click="dis('9')" /></td>
-                <td>
-                  <q-btn label="+" round @click="dis('+')" color="black" />
-                </td>
-              </tr>
-              <tr>
-                <td><q-btn label="." round @click="dis('.')" /></td>
-                <td><q-btn label="0" round @click="dis('0')" /></td>
-                <!-- solve function call function solve to evaluate label -->
-                <td>
-                  <q-btn label="=" @click="solve()" round color="indigo-8" />
-                </td>
-                <td>
-                  <q-btn label="x" round @click="dis('*')" color="black" />
-                </td>
-              </tr>
-            </table>
-          </q-card>
-       
+        <q-card
+          style="padding:20px;border-radius:20px;"
+          :disable="draggingFab"
+          v-touch-pan.prevent.mouse="moveFab"
+        >
+          <table border="0">
+            <tr>
+              <td colspan="3">
+                <q-input
+                  type="text"
+                  id="result"
+                  rounded
+                  dense
+                  v-model="text"
+                  autogrow
+                />
+              </td>
+              <!-- clr() function will call clr to clear all label -->
+              <td><q-btn label="C" @click="clr()" color="orange" round /></td>
+            </tr>
+            <tr>
+              <!-- create button and assign label to each button -->
+              <!-- dis("1") will call function dis to display label -->
+              <td><q-btn label="1" round @click="dis('1')" /></td>
+              <td><q-btn label="2" round @click="dis('2')" /></td>
+              <td><q-btn label="3" round @click="dis('3')" /></td>
+              <td>
+                <q-btn label="/" round @click="dis('/')" color="black" />
+              </td>
+            </tr>
+            <tr>
+              <td><q-btn label="4" round @click="dis('4')" /></td>
+              <td><q-btn label="5" round @click="dis('5')" /></td>
+              <td><q-btn label="6" round @click="dis('6')" /></td>
+              <td>
+                <q-btn label="-" round @click="dis('-')" color="black" />
+              </td>
+            </tr>
+            <tr>
+              <td><q-btn label="7" round @click="dis('7')" /></td>
+              <td><q-btn label="8" round @click="dis('8')" /></td>
+              <td><q-btn label="9" round @click="dis('9')" /></td>
+              <td>
+                <q-btn label="+" round @click="dis('+')" color="black" />
+              </td>
+            </tr>
+            <tr>
+              <td><q-btn label="." round @click="dis('.')" /></td>
+              <td><q-btn label="0" round @click="dis('0')" /></td>
+              <!-- solve function call function solve to evaluate label -->
+              <td>
+                <q-btn label="=" @click="solve()" round color="indigo-8" />
+              </td>
+              <td>
+                <q-btn label="x" round @click="dis('*')" color="black" />
+              </td>
+            </tr>
+          </table>
+        </q-card>
       </q-fab>
     </q-page-sticky>
     <!-- Context Menu  -->
@@ -260,20 +307,17 @@ function wrapCsvValue(val, formatFn) {
   formatted =
     formatted === void 0 || formatted === null ? "" : String(formatted);
 
-  formatted = formatted
-    .split('"')
-    .join('""')
-    /**
-     * Excel accepts \n and \r in strings, but some other CSV parsers do not
-     * Uncomment the next two lines to escape new lines
-     */
-    .split("\n")
-    .join("\\n")
-    .split("\r")
-    .join("\\r");
+  formatted = formatted.split('"').join('""');
+  /**
+   * Excel accepts \n and \r in strings, but some other CSV parsers do not
+   * Uncomment the next two lines to escape new lines
+   */
+  // .split('\n').join('\\n')
+  // .split('\r').join('\\r')
 
   return `"${formatted}"`;
 }
+
 export default {
   name: "Home",
   components: {
@@ -281,6 +325,9 @@ export default {
   },
   data() {
     return {
+      pagination: "",
+      Carrousel: "",
+      slide: "las la-chart-area",
       text: "",
       fabPos: [18, 18],
       draggingFab: false,
@@ -288,12 +335,8 @@ export default {
       loading: false,
       positionCalc: "right",
       calc: false,
-      yt: false,
-      inputTextSearch: "",
       DataTable: json,
       username: "Roboto Dakasuki Mora",
-      searchbar: false,
-      searchbarPos: "top",
       areaOptions: data.AreaData,
       selected: [],
       columns: [
@@ -335,11 +378,6 @@ export default {
     };
   },
 
-  mounted() {
-    this.onRequest({
-      filter: undefined
-    });
-  },
   methods: {
     Darkmode() {
       Dark.toggle();
@@ -360,9 +398,10 @@ export default {
     },
     exportTable() {
       // naive encoding to csv format
+
       const content = [this.columns.map(col => wrapCsvValue(col.label))]
         .concat(
-          this.data.map(row =>
+          this.DataTable.data.map(row =>
             this.columns
               .map(col =>
                 wrapCsvValue(
@@ -423,47 +462,6 @@ export default {
         .catch(() => {
           // fail
         });
-      document.getElementById("csvdata").innerText = CSVData;
-    },
-    onRequest(props) {
-      const { page, rowsPerPage, sortBy, descending } = props.pagination;
-      const filter = props.filter;
-
-      this.loading = true;
-
-      // emulate server
-      setTimeout(() => {
-        // update rowsCount with appropriate value
-        this.pagination.rowsNumber = this.getRowsNumberCount(filter);
-
-        // get all rows if "All" (0) is selected
-        const fetchCount =
-          rowsPerPage === 0 ? this.pagination.rowsNumber : rowsPerPage;
-
-        // calculate starting row of data
-        const startRow = (page - 1) * rowsPerPage;
-
-        // fetch data from "server"
-        const returnedData = this.fetchFromServer(
-          startRow,
-          fetchCount,
-          filter,
-          sortBy,
-          descending
-        );
-
-        // clear out existing data and add new
-        this.data.splice(0, this.data.length, ...returnedData);
-
-        // don't forget to update local pagination object
-        this.pagination.page = page;
-        this.pagination.rowsPerPage = rowsPerPage;
-        this.pagination.sortBy = sortBy;
-        this.pagination.descending = descending;
-
-        // ...and turn of loading indicator
-        this.loading = false;
-      }, 1500);
     },
 
     // emulate ajax call
