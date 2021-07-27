@@ -37,7 +37,7 @@
           </q-item-section>
         </q-item>
 
-        <q-item @click="toolbar = true" clickable class="item" v-ripple>
+        <q-item  clickable class="item" v-ripple>
           <q-item-section avatar>
             <q-icon name="las la-info-circle" />
           </q-item-section>
@@ -46,7 +46,7 @@
           </q-item-section>
         </q-item>
 
-        <q-item clickable class="item" v-ripple @click="Darkmode">
+        <q-item clickable class="item" v-ripple >
           <q-item-section avatar>
             <q-icon name="las la-cog" />
           </q-item-section>
@@ -57,68 +57,6 @@
         </q-item>
       </q-list>
     </q-drawer>
-
-    <q-dialog v-model="toolbar">
-      <q-card>
-        <q-toolbar>
-          <q-toolbar-title
-            ><span class="text-weight-bold">About Us</span></q-toolbar-title
-          >
-          <q-btn flat round dense icon="close" v-close-popup />
-        </q-toolbar>
-        <q-card-section style="margin-left:10px">
-          <q-avatar
-            size="200px"
-            font-size="52px"
-            color="grey"
-            text-color="black"
-            style="margin:20px;"
-          >
-            <img src="../assets/avatar.png" alt="" />
-          </q-avatar>
-          <q-separator />
-          <p class="info">Hi 👋, I'm Floki Web Developer</p>
-          <p class="info">For Any Support You can Find me Here</p>
-          <div class="row">
-            <input type="checkbox" class="theme-switch" v-model="darkMode" />
-            <q-btn
-              @click="opentab('https://twitter.com/Adem1250_Dr')"
-              flat
-              round
-              color="primary"
-              icon="lab la-twitter"
-              size="25px"
-            />
-            <q-btn
-              @click="opentab('https://github.com/floki1250')"
-              flat
-              round
-              color="black"
-              icon="lab la-github"
-              size="25px"
-            />
-            <q-btn
-              icon="las la-envelope"
-              color="black"
-              size="25px"
-              flat
-              round
-              @click="show = !show"
-            ></q-btn>
-            <p v-show="show" style="margin:25px" class="info">
-              d.adem1250@gmail.com
-            </p>
-          </div>
-          <q-btn
-            flat
-            rounded
-            @click="opentab('https://www.discovertunisia.com/en/')"
-            style="margin-left:10px"
-            >Made with ❤️ in Tunisia</q-btn
-          >
-        </q-card-section>
-      </q-card>
-    </q-dialog>
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -126,26 +64,21 @@
 </template>
 
 <script>
-import Settings from "components/Settings.vue";
-import variables from "../css/app.scss";
+
+
 
 export default {
   data() {
     return {
-      darkMode: false,
       drawer: false,
       miniState: true,
       setting: false,
-      show: false,
+      
       toolbar: false
     };
   },
   methods: {
-    Darkmode() {
-      console.log(variables.fluent);
-      console.log(variables.bg);
-      variables.fluent = "rgba(0,0,0,0.4)";
-    },
+    
     opentab: function(url) {
       window.open(url);
     },
@@ -157,25 +90,8 @@ export default {
     }
   },
 
-  mounted() {
-    // set 'app-background' class to body
-    let bodyElement = document.body;
-    bodyElement.classList.add("app-background");
-  },
-  watch: {
-    darkMode: function() {
-      // add/remove class to/from html tag
-      let htmlElement = document.documentElement;
-
-      if (this.darkMode) {
-        localStorage.setItem("theme", "dark");
-        htmlElement.setAttribute("theme", "dark");
-      } else {
-        localStorage.setItem("theme", "light");
-        htmlElement.setAttribute("theme", "light");
-      }
-    }
-  },
-  components: {}
+  
+  
+  
 };
 </script>

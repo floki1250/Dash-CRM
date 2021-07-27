@@ -10,21 +10,16 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-   
     "@quasar/cli": "^1.2.1",
     "@quasar/extras": "^1.0.0",
     "@quasar/icongenie": "^2.4.0",
-   
+    "animejs": "^3.2.1",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "node-fetch": "^2.6.1",
     "quasar": "^1.0.0",
-    
     "vue-axios": "^3.2.4",
-    
     "vue2-highcharts": "^1.2.5",
-    
-   
     "zingchart-vue": "^2.0.3"
   },
   "devDependencies": {

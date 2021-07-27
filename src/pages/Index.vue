@@ -5,7 +5,7 @@
 
       <div class="row" style="position:absolute;right:2%;margin-left:200px;">
         <div>
-          <q-btn color="grey" icon="las la-sun" flat round @click="Darkmode" />
+          <q-btn color="grey" :icon="modeicon" flat round @click="Darkmode" />
         </div>
         <div>
           <q-btn color="grey" icon="las la-bell" flat round
@@ -38,7 +38,7 @@
           </p>
 
           <q-avatar size="40px">
-            <img src="~/assets/avatar.png" alt="" />
+            <img src="../assets/avatar.png" alt="" />
           </q-avatar>
         </div>
       </div>
@@ -325,6 +325,7 @@ export default {
   },
   data() {
     return {
+      modeicon: "las la-sun",
       pagination: "",
       Carrousel: "",
       slide: "las la-chart-area",
@@ -381,6 +382,11 @@ export default {
   methods: {
     Darkmode() {
       Dark.toggle();
+      if (Dark.mode == true) {
+        this.modeicon = "las la-cloud-moon";
+      }else{
+        this.modeicon = "las la-sun";
+      }
     },
     clr() {
       this.text = "";
