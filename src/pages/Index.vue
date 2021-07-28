@@ -52,14 +52,8 @@
                "
     >
       <div style="flex:0.7;">
-        <div class=" widget fluent" onclick="()';" style="cursor: pointer; ">
-          <iframe
-            src="https://free.timeanddate.com/clock/i7untxj0/n253/fn16/fs30/tct/pct/pa9/tt0/tw0/tm1/td2/th1/tb4"
-            frameborder="0"
-            width="100%"
-            height="88"
-            allowtransparency="true"
-          ></iframe>
+        <div class=" widget fluent" onclick="()';" style="cursor: pointer;width:250px ">
+          <Clock />
         </div>
         <div
           class="widget fluent"
@@ -86,7 +80,7 @@
           >
             <q-carousel-slide
               name="las la-chart-area"
-              class="column no-wrap flex-center"
+              class="column no-wrap flex-center q-carousel-slide"
             >
               <q-icon size="56px"
                 ><img src="../assets/growth.svg" alt=""
@@ -97,7 +91,7 @@
             </q-carousel-slide>
             <q-carousel-slide
               name="las la-chart-bar"
-              class="column no-wrap flex-center"
+              class="column no-wrap flex-center q-carousel-slide"
             >
               <q-icon size="56px"
                 ><img src="../assets/decrease.svg" alt=""
@@ -108,7 +102,7 @@
             </q-carousel-slide>
             <q-carousel-slide
               name="las la-project-diagram"
-              class="column no-wrap flex-center"
+              class="column no-wrap flex-center q-carousel-slide"
             >
               <q-icon size="56px"
                 ><img src="../assets/bank.svg" alt=""
@@ -119,7 +113,7 @@
             </q-carousel-slide>
             <q-carousel-slide
               name="las la-chart-line"
-              class="column no-wrap flex-center"
+              class="column no-wrap flex-center q-carousel-slide"
             >
               <q-icon size="56px"
                 ><img src="../assets/balance.svg" alt=""
@@ -136,17 +130,26 @@
         class="widget fluent"
         style="cursor: pointer; height:400px ;min-width:400px;flex:2;"
       >
-        <vue-highcharts
-          :options="areaOptions"
-          ref="areaCharts"
-        ></vue-highcharts>
+        <v-chart class="chart" :option="option" />
       </div>
 
       <div
         class="widget fluent"
         onclick="()';"
         style="cursor: pointer; height:400px ; flex:0.5 ;"
-      ></div>
+      >
+        <p class="product">Top Product</p>
+        <q-separator />
+        <q-scroll-area style="width: 100%; height: 75%;overflow: hidden ;">
+          <div v-for="i in 50" :key="i" class="product-item row">
+            <div>
+              <q-icon> <img src="../assets/smartwatch.png"/></q-icon>
+            </div>
+            <div style="margin-left:10%">Smartwatch {{ i }}</div>
+            <div style="margin-left:10%">500$</div>
+          </div>
+        </q-scroll-area>
+      </div>
       <div class="widget fluent" style="padding:10px;width:100%;">
         <q-table
           title="Test"
@@ -156,8 +159,8 @@
           :selected.sync="selected"
           color="#e4e4e4d2"
           card-class="#e4e4e4d2"
-          table-class="text-black-8"
-          table-header-class="text-black"
+          :table-class="textTable"
+          :table-header-class="textTable"
           style="width:100%"
           :data="DataTable.data"
           :loading="loading"
@@ -295,12 +298,30 @@
 
 <script>
 import { Dark } from "quasar";
-import VueHighcharts from "vue2-highcharts";
-import * as data from "src/assets/Data.js";
+
 import json from "src/assets/DataTable.json";
+import ChartData from "src/assets/ChartData.json";
 import { copyToClipboard } from "quasar";
 import { exportFile } from "quasar";
+import Clock from "app/component/clock.vue";
+import { use } from "echarts/core";
+import { CanvasRenderer } from "echarts/renderers";
+import { BarChart, LineChart, LinesChart, PieChart } from "echarts/charts";
+import {
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent
+} from "echarts/components";
+import VChart, { THEME_KEY } from "vue-echarts";
 
+use([
+  CanvasRenderer,
+  BarChart,
+  PieChart,
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent
+]);
 function wrapCsvValue(val, formatFn) {
   let formatted = formatFn !== void 0 ? formatFn(val) : val;
 
@@ -312,19 +333,24 @@ function wrapCsvValue(val, formatFn) {
    * Excel accepts \n and \r in strings, but some other CSV parsers do not
    * Uncomment the next two lines to escape new lines
    */
-  // .split('\n').join('\\n')
-  // .split('\r').join('\\r')
+ //.split('\n').join('\\n')
+ //.split('\r').join('\\r')
 
   return `"${formatted}"`;
 }
 
 export default {
+  provide: {
+    [THEME_KEY]: "light"
+  },
   name: "Home",
   components: {
-    VueHighcharts
+    Clock,
+    VChart
   },
   data() {
     return {
+      textTable:"text-white-8",
       modeicon: "las la-sun",
       pagination: "",
       Carrousel: "",
@@ -338,7 +364,44 @@ export default {
       calc: false,
       DataTable: json,
       username: "Roboto Dakasuki Mora",
-      areaOptions: data.AreaData,
+      option: {
+        title: {
+          text: "Traffic Sources",
+          left: "center"
+        },
+        tooltip: {
+          trigger: "item",
+          formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        legend: {
+          orient: "vertical",
+          left: "left",
+          data: [
+            "Direct",
+            "Email",
+            "Ad Networks",
+            "Video Ads",
+            "Search Engines"
+          ]
+        },
+        series: [
+          {
+            name: "Traffic Sources",
+            type: "pie",
+            radius: "55%",
+            center: ["50%", "60%"],
+            data:ChartData.data,
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: "rgba(0, 0, 0, 0.5)"
+              }
+            }
+          }
+        ]
+      },
+
       selected: [],
       columns: [
         {
@@ -384,8 +447,10 @@ export default {
       Dark.toggle();
       if (Dark.mode == true) {
         this.modeicon = "las la-cloud-moon";
-      }else{
+        this.textTable = "text-white-8"
+      } else {
         this.modeicon = "las la-sun";
+         this.textTable = "text-black-8"
       }
     },
     clr() {
@@ -506,9 +571,6 @@ export default {
       });
       return count;
     }
-  },
-  components: {
-    VueHighcharts
   }
 };
 </script>

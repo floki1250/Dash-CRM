@@ -11,12 +11,23 @@ $bg-dark: "../assets/bg.jpg";
 .bg-brand {
   background: #2b3f66;
 }
-
 * {
-  transition: Background 500ms;
+  transition: Background 1s;
+}
+.product {
+  margin: 20px 0px 0px 5px;
+  text-align: center;
+  font-size: 15px;
+  
 }
 
 .body--light {
+  .clock {
+    font-family: "Mulish", sans-serif;
+    font-size:50px;
+    text-align: center;
+    margin: 10px;
+}
   .headerBar {
     position: sticky;
     top: 1px;
@@ -67,17 +78,7 @@ $bg-dark: "../assets/bg.jpg";
     background-size: cover;
   }
 
-  @keyframes gradient {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
+  
 
   .widget {
     display: flex;
@@ -135,6 +136,15 @@ $bg-dark: "../assets/bg.jpg";
     backdrop-filter: blur(10px);
     border-radius: 2rem;
   }
+  .product-item {
+    margin-bottom: 5px;
+    border-radius: 10px;
+    background-color: rgba(#fff, 0.4);
+    padding: 10px;
+  }
+  q-carousel-slide{
+    color:#000
+  }
   // Context Menu style
   #right-click-menu {
     background: #fafafa;
@@ -167,6 +177,13 @@ $bg-dark: "../assets/bg.jpg";
   //-----------Dark Mode----------------
 }
 .body--dark {
+  .clock {
+    font-family: "Mulish", sans-serif;
+    font-size:50px;
+    text-align: center;
+    margin: 10px;
+    color: whitesmoke;
+}
   .headerBar {
     position: sticky;
     top: 1px;
@@ -312,9 +329,19 @@ $bg-dark: "../assets/bg.jpg";
     background: #1e88e5;
     color: #fafafa;
   }
-
-  //-----------Dark Mode----------------
+  .product-item {
+    margin-bottom: 5px;
+    border-radius: 10px;
+    background-color: rgba(#000, 0.4);
+    padding: 10px;
+    color: whitesmoke;
+  }
+  .q-carousel-slide{
+    color:whitesmoke
+  }
 }
+  //-----------Dark Mode----------------
+
 ::-webkit-scrollbar {
   width: 12px;
 }
