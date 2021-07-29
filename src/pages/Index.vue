@@ -52,7 +52,11 @@
                "
     >
       <div style="flex:0.7;">
-        <div class=" widget fluent" onclick="()';" style="cursor: pointer;width:250px ">
+        <div
+          class=" widget fluent"
+          onclick="()';"
+          style="cursor: pointer;width:250px "
+        >
           <Clock />
         </div>
         <div
@@ -83,7 +87,7 @@
               class="column no-wrap flex-center q-carousel-slide"
             >
               <q-icon size="56px"
-                ><img src="../assets/growth.svg" alt=""
+                ><img src="../assets/growth.svg" alt="" class="Carrousel-Icon"
               /></q-icon>
               <div class="q-mt-md text-center">
                 Revenue Increased By 5% this Month
@@ -94,7 +98,7 @@
               class="column no-wrap flex-center q-carousel-slide"
             >
               <q-icon size="56px"
-                ><img src="../assets/decrease.svg" alt=""
+                ><img src="../assets/decrease.svg" alt="" class="Carrousel-Icon"
               /></q-icon>
               <div class="q-mt-md text-center">
                 Lost 500$ this Week
@@ -105,7 +109,7 @@
               class="column no-wrap flex-center q-carousel-slide"
             >
               <q-icon size="56px"
-                ><img src="../assets/bank.svg" alt=""
+                ><img src="../assets/bank.svg" alt="" class="Carrousel-Icon"
               /></q-icon>
               <div class="q-mt-md text-center">
                 Added 1000$ To the Bank
@@ -116,7 +120,7 @@
               class="column no-wrap flex-center q-carousel-slide"
             >
               <q-icon size="56px"
-                ><img src="../assets/balance.svg" alt=""
+                ><img src="../assets/balance.svg" srcset="" alt="" class="Carrousel-Icon"
               /></q-icon>
               <div class="q-mt-md text-center">
                 Your Balance 20,000,000 $
@@ -130,7 +134,7 @@
         class="widget fluent"
         style="cursor: pointer; height:400px ;min-width:400px;flex:2;"
       >
-        <v-chart class="chart" :option="option" />
+        <v-chart class="chart" :option="option" :autoresize="autoresize" />
       </div>
 
       <div
@@ -154,13 +158,11 @@
         <q-table
           title="Test"
           :columns="columns"
-          row-key="name"
-          selection="single"
+          row-key="productId"
+          selection="multiple"
           :selected.sync="selected"
           color="#e4e4e4d2"
           card-class="#e4e4e4d2"
-          :table-class="textTable"
-          :table-header-class="textTable"
           style="width:100%"
           :data="DataTable.data"
           :loading="loading"
@@ -306,35 +308,25 @@ import { exportFile } from "quasar";
 import Clock from "app/component/clock.vue";
 import { use } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
-import { BarChart, LineChart, LinesChart, PieChart } from "echarts/charts";
-import {
-  TitleComponent,
-  TooltipComponent,
-  LegendComponent
-} from "echarts/components";
+import { BarChart, } from "echarts/charts";
+
+import { GridComponent, TooltipComponent } from "echarts/components";
 import VChart, { THEME_KEY } from "vue-echarts";
 
-use([
-  CanvasRenderer,
-  BarChart,
-  PieChart,
-  TitleComponent,
-  TooltipComponent,
-  LegendComponent
-]);
+use([CanvasRenderer, BarChart, GridComponent, TooltipComponent]);
 function wrapCsvValue(val, formatFn) {
   let formatted = formatFn !== void 0 ? formatFn(val) : val;
 
   formatted =
     formatted === void 0 || formatted === null ? "" : String(formatted);
 
-  formatted = formatted.split('"').join('""');
-  /**
-   * Excel accepts \n and \r in strings, but some other CSV parsers do not
-   * Uncomment the next two lines to escape new lines
-   */
- //.split('\n').join('\\n')
- //.split('\r').join('\\r')
+  formatted = formatted
+    .split('"')
+    .join('""')
+    .split("\n")
+    .join("\\n")
+    .split("\r")
+    .join("\\r");
 
   return `"${formatted}"`;
 }
@@ -350,7 +342,8 @@ export default {
   },
   data() {
     return {
-      textTable:"text-white-8",
+      autoresize : true ,
+      textTable: "text-white-8",
       modeicon: "las la-sun",
       pagination: "",
       Carrousel: "",
@@ -365,79 +358,62 @@ export default {
       DataTable: json,
       username: "Roboto Dakasuki Mora",
       option: {
-        title: {
-          text: "Traffic Sources",
-          left: "center"
-        },
+        color: ["#3398DB"],
         tooltip: {
-          trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
+          trigger: "axis",
+          axisPointer: {
+            type: "shadow"
+          }
         },
-        legend: {
-          orient: "vertical",
-          left: "left",
-          data: [
-            "Direct",
-            "Email",
-            "Ad Networks",
-            "Video Ads",
-            "Search Engines"
-          ]
-        },
-        series: [
+        grid: {},
+        xAxis: [
           {
-            name: "Traffic Sources",
-            type: "pie",
-            radius: "55%",
-            center: ["50%", "60%"],
-            data:ChartData.data,
-            emphasis: {
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: "rgba(0, 0, 0, 0.5)"
-              }
+            type: "category",
+            data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+            axisTick: {
+              alignWithLabel: true
             }
           }
-        ]
+        ],
+        yAxis: [
+          {
+            type: "value"
+          }
+        ],
+        series: [
+          {
+            name: "Sales",
+            type: "bar",
+            barWidth: "50%",
+            data: ChartData.data
+          }
+        ],
+
+        animationDuration: 500
       },
 
       selected: [],
       columns: [
         {
-          name: "desc",
+          name: "Id",
           required: true,
-          label: "Dessert (100g serving)",
-          align: "left",
-          field: row => row.name,
-          format: val => `${val}`,
-          sortable: true
-        },
-        {
-          name: "calories",
+          label: "product Id",
           align: "center",
-          label: "Calories",
-          field: "calories",
-          sortable: true
-        },
-        { name: "fat", label: "Fat (g)", field: "fat", sortable: true },
-        { name: "carbs", label: "Carbs (g)", field: "carbs" },
-        { name: "protein", label: "Protein (g)", field: "protein" },
-        { name: "sodium", label: "Sodium (mg)", field: "sodium" },
-        {
-          name: "calcium",
-          label: "Calcium (%)",
-          field: "calcium",
+          field: "productId",
           sortable: true,
-          sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
+         
         },
         {
-          name: "iron",
-          label: "Iron (%)",
-          field: "iron",
+          name: "product Name",
+          align: "left",
+          label: "productName",
+          field: "productName",
           sortable: true,
-          sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
-        }
+        },
+        { name: "productStock", label: "Stock", field: "productStock", sortable: true },
+        { name: "productPrice", label: "$ Price", field: "productPrice" ,sortable: true},
+        { name: "productSalePrice", label: "Sale Price", field: "productSalePrice" },
+        { name: "rating", label: "rating", field: "rating",sortable: true ,align: "left",},
       ]
     };
   },
@@ -447,10 +423,10 @@ export default {
       Dark.toggle();
       if (Dark.mode == true) {
         this.modeicon = "las la-cloud-moon";
-        this.textTable = "text-white-8"
+        this.textTable = "text-white-8";
       } else {
         this.modeicon = "las la-sun";
-         this.textTable = "text-black-8"
+        this.textTable = "text-black-8";
       }
     },
     clr() {
@@ -466,6 +442,9 @@ export default {
       this.draggingFab = ev.isFirst !== true && ev.isFinal !== true;
 
       this.fabPos = [this.fabPos[0] - ev.delta.x, this.fabPos[1] - ev.delta.y];
+    },
+    getSelectedString () {
+      return this.selected.length === 0 ? '' : `${this.selected.length} record${this.selected.length > 1 ? 's' : ''} selected of ${this.data.length}`
     },
     exportTable() {
       // naive encoding to csv format
@@ -487,7 +466,7 @@ export default {
         )
         .join("\r\n");
 
-      const status = exportFile("table-export.csv", content, "text/csv");
+      const status = exportFile("table-export.xlsx", content, "text/xlsx");
 
       if (status !== true) {
         this.$q.notify({
@@ -497,16 +476,7 @@ export default {
         });
       }
     },
-    showNotif(position) {
-      setTimeout(() => {
-        this.$q.notify({
-          message: "Hello World!",
-          color: "blue",
-          position,
-          progress: true
-        });
-      }, 50);
-    },
+
     CopyData(CopyTab) {
       let CSVData = "";
       // set the column names

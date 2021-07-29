@@ -18,7 +18,8 @@ $bg-dark: "../assets/bg.jpg";
   margin: 20px 0px 0px 5px;
   text-align: center;
   font-size: 15px;
-  
+  position: relative;
+  left:30%;
 }
 
 .body--light {
@@ -177,12 +178,18 @@ $bg-dark: "../assets/bg.jpg";
   //-----------Dark Mode----------------
 }
 .body--dark {
+  .Carrousel-Icon{
+    filter: invert(100%) ;
+  }
+  i{
+    color: rgb(233, 232, 232);
+  }
   .clock {
     font-family: "Mulish", sans-serif;
     font-size:50px;
     text-align: center;
     margin: 10px;
-    color: whitesmoke;
+    color: rgb(233, 232, 232);
 }
   .headerBar {
     position: sticky;
@@ -234,17 +241,7 @@ $bg-dark: "../assets/bg.jpg";
     background-size: cover;
   }
 
-  @keyframes gradient {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
+  
 
   .widget {
     display: flex;
@@ -262,7 +259,7 @@ $bg-dark: "../assets/bg.jpg";
     fill: transparent;
   }
   .q-table__card {
-    color: rgb(39, 39, 39);
+    color: whitesmoke;
     background-color: transparent;
     border-radius: 4px;
     box-shadow: 0 0px 0px;
@@ -280,12 +277,9 @@ $bg-dark: "../assets/bg.jpg";
     font-weight: bold;
     color: rgba(245, 245, 245, 0.63);
   }
-  .vue-highcharts {
-    width: 82%;
-    -webkit-margin-collapse: collapse;
-  }
+  
   .fluent {
-    background-color: rgba(#000, 0.2);
+    background-color: rgba(#000, 0.5);
     box-shadow: 0 0 3px rgba(#000, 0.3);
     backdrop-filter: blur(20px);
   }
