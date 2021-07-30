@@ -1,16 +1,20 @@
 <template>
   <q-page class="flex page">
+    <div class="popup">
+      <q-icon name="las la-exclamation-triangle" /> Enlarge window screen for
+      better visibility !
+    </div>
     <div class="row justify-between light headerBar">
       <div class="overview text">Overview</div>
 
-      <div class="row" style="position:absolute;right:2%;margin-left:200px;">
+      <div class="row" style="position:absolute;right:1%;">
         <div>
           <q-btn color="grey" :icon="modeicon" flat round @click="Darkmode" />
         </div>
         <div>
           <q-btn color="grey" icon="las la-bell" flat round
             ><q-badge floating color="red" transparent rounded
-              >+5</q-badge
+              >+9</q-badge
             ></q-btn
           >
           <q-popup-edit
@@ -31,9 +35,13 @@
             </div>
           </q-popup-edit>
         </div>
-        <q-separator vertical style="margin:10px" />
-        <div class="row" style="margin:2px">
-          <p style="padding: 10px 10px 0px 5px" class="text">
+        <div
+          class="vl"
+          style="border-left: 1px solid grey;
+  height: 40px;margin:2px 20px 2px 20px"
+        ></div>
+        <div class="row">
+          <p class="text username">
             {{ username }}
           </p>
 
@@ -43,26 +51,19 @@
         </div>
       </div>
     </div>
-
-    <div
-      class="row"
-      style="width: 100%;
-               height: 100%;
-               display: flex;
-               "
-    >
+    <div class="row grid">
       <div style="flex:0.7;">
         <div
           class=" widget fluent"
           onclick="()';"
           style="cursor: pointer;width:250px "
         >
-          <Clock />
+          <Clock style="padding:10%;width:100%" />
         </div>
         <div
           class="widget fluent"
           onclick="()';"
-          style="cursor: pointer;  width:90% ;height:65%"
+          style="cursor: pointer;  width:250px ; height:65%"
         >
           <q-carousel
             v-model="slide"
@@ -120,7 +121,11 @@
               class="column no-wrap flex-center q-carousel-slide"
             >
               <q-icon size="56px"
-                ><img src="../assets/balance.svg" srcset="" alt="" class="Carrousel-Icon"
+                ><img
+                  src="../assets/balance.svg"
+                  srcset=""
+                  alt=""
+                  class="Carrousel-Icon"
               /></q-icon>
               <div class="q-mt-md text-center">
                 Your Balance 20,000,000 $
@@ -143,14 +148,16 @@
         style="cursor: pointer; height:400px ; flex:0.5 ;"
       >
         <p class="product">Top Product</p>
-        <q-separator />
+
         <q-scroll-area style="width: 100%; height: 75%;overflow: hidden ;">
           <div v-for="i in 50" :key="i" class="product-item row">
             <div>
               <q-icon> <img src="../assets/smartwatch.png"/></q-icon>
             </div>
-            <div style="margin-left:10%">Smartwatch {{ i }}</div>
-            <div style="margin-left:10%">500$</div>
+            <div style="margin-left:10px">Smartwatch {{ i }}</div>
+            <div style="margin-right:1px;margin-left:10px;font-weight: 500;">
+              500$
+            </div>
           </div>
         </q-scroll-area>
       </div>
@@ -186,15 +193,6 @@
         <q-menu touch-position context-menu>
           <q-list dense style="min-width: 100px ; margin:10px 0px 5px 0px">
             <q-item clickable v-close-popup>
-              <div class="row">
-                <q-icon
-                  name="las la-external-link-alt"
-                  size="xs"
-                  style="padding-right:10px"
-                />Open
-              </div>
-            </q-item>
-            <q-item clickable v-close-popup>
               <q-item-section @click="CopyData(JSON.stringify(selected))">
                 <div class="row">
                   <q-icon
@@ -207,15 +205,18 @@
             </q-item>
             <q-separator />
             <q-item clickable>
-              <q-item-section @click="exportTable" no-caps
+              <q-item-section no-caps
                 ><div class="row">
                   <q-icon
                     name="las la-file-export"
                     size="sm"
                     style="padding-right:5px"
-                  />Export
-                </div></q-item-section
-              >
+                  />
+                  <JsonExcel
+                    :data="DataTable.data"
+                    :name="file"
+                  ></JsonExcel></div
+              ></q-item-section>
             </q-item>
             <q-separator />
           </q-list>
@@ -304,33 +305,30 @@ import { Dark } from "quasar";
 import json from "src/assets/DataTable.json";
 import ChartData from "src/assets/ChartData.json";
 import { copyToClipboard } from "quasar";
-import { exportFile } from "quasar";
 import Clock from "app/component/clock.vue";
 import { use } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
-import { BarChart, } from "echarts/charts";
-
+import { BarChart } from "echarts/charts";
+import JsonExcel from "vue-json-excel";
 import { GridComponent, TooltipComponent } from "echarts/components";
 import VChart, { THEME_KEY } from "vue-echarts";
-
+var tot =(function calculate_Totals(json){
+  for (var i = 0; i < json.length;i++) {
+     tot = total(json[i].productSalePrice);
+  }
+ return tot;
+});
 use([CanvasRenderer, BarChart, GridComponent, TooltipComponent]);
-function wrapCsvValue(val, formatFn) {
-  let formatted = formatFn !== void 0 ? formatFn(val) : val;
 
-  formatted =
-    formatted === void 0 || formatted === null ? "" : String(formatted);
-
-  formatted = formatted
-    .split('"')
-    .join('""')
-    .split("\n")
-    .join("\\n")
-    .split("\r")
-    .join("\\r");
-
-  return `"${formatted}"`;
-}
-
+const today = new Date();
+const filename =
+  "Export-" +
+  today.getDate() +
+  "-" +
+  eval(today.getMonth() + 1) +
+  "-" +
+  today.getFullYear() +
+  ".xls";
 export default {
   provide: {
     [THEME_KEY]: "light"
@@ -338,11 +336,14 @@ export default {
   name: "Home",
   components: {
     Clock,
-    VChart
+    VChart,
+    JsonExcel
   },
   data() {
     return {
-      autoresize : true ,
+      totalRev : tot,
+      file: filename,
+      autoresize: true,
       textTable: "text-white-8",
       modeicon: "las la-sun",
       pagination: "",
@@ -356,7 +357,7 @@ export default {
       positionCalc: "right",
       calc: false,
       DataTable: json,
-      username: "Roboto Dakasuki Mora",
+      username: "Adem Dardour",
       option: {
         color: ["#3398DB"],
         tooltip: {
@@ -400,20 +401,39 @@ export default {
           label: "product Id",
           align: "center",
           field: "productId",
-          sortable: true,
-         
+          sortable: true
         },
         {
           name: "product Name",
           align: "left",
           label: "productName",
           field: "productName",
-          sortable: true,
+          sortable: true
         },
-        { name: "productStock", label: "Stock", field: "productStock", sortable: true },
-        { name: "productPrice", label: "$ Price", field: "productPrice" ,sortable: true},
-        { name: "productSalePrice", label: "Sale Price", field: "productSalePrice" },
-        { name: "rating", label: "rating", field: "rating",sortable: true ,align: "left",},
+        {
+          name: "productStock",
+          label: "Stock",
+          field: "productStock",
+          sortable: true
+        },
+        {
+          name: "productPrice",
+          label: "$ Price",
+          field: "productPrice",
+          sortable: true
+        },
+        {
+          name: "productSalePrice",
+          label: "Sale Price",
+          field: "productSalePrice"
+        },
+        {
+          name: "rating",
+          label: "rating",
+          field: "rating",
+          sortable: true,
+          align: "left"
+        }
       ]
     };
   },
@@ -443,38 +463,12 @@ export default {
 
       this.fabPos = [this.fabPos[0] - ev.delta.x, this.fabPos[1] - ev.delta.y];
     },
-    getSelectedString () {
-      return this.selected.length === 0 ? '' : `${this.selected.length} record${this.selected.length > 1 ? 's' : ''} selected of ${this.data.length}`
-    },
-    exportTable() {
-      // naive encoding to csv format
-
-      const content = [this.columns.map(col => wrapCsvValue(col.label))]
-        .concat(
-          this.DataTable.data.map(row =>
-            this.columns
-              .map(col =>
-                wrapCsvValue(
-                  typeof col.field === "function"
-                    ? col.field(row)
-                    : row[col.field === void 0 ? col.name : col.field],
-                  col.format
-                )
-              )
-              .join(",")
-          )
-        )
-        .join("\r\n");
-
-      const status = exportFile("table-export.xlsx", content, "text/xlsx");
-
-      if (status !== true) {
-        this.$q.notify({
-          message: "Browser denied file download...",
-          color: "negative",
-          icon: "warning"
-        });
-      }
+    getSelectedString() {
+      return this.selected.length === 0
+        ? ""
+        : `${this.selected.length} record${
+            this.selected.length > 1 ? "s" : ""
+          } selected of ${this.data.length}`;
     },
 
     CopyData(CopyTab) {

@@ -15,8 +15,8 @@
         "productName": "civilian salmon Delinda",
         "productImage": "https://picsum.photos/400?image=261",
         "productStock": 66,
-        "productPrice": "42992.62",
-        "productSalePrice": "20636.46",
+        "productPrice": 42992.62,
+        "productSalePrice": 20636.46,
         "rating": 2
       },
       {
