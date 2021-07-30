@@ -11,15 +11,8 @@ npm install
 quasar dev
 ```
 
-### Lint the files
-```bash
-npm run lint
-```
-
 ### Build the app for production
 ```bash
 quasar build
 ```
-
-### Customize the configuration
-See [Configuring quasar.conf.js](https://v1.quasar.dev/quasar-cli/quasar-conf-js).
+![image](https://user-images.githubusercontent.com/37814393/127658244-b6aac1a0-c6f3-423c-9a03-d2f0a45d8a6d.png)
